@@ -7,7 +7,6 @@ import 'package:free_lottery/presentation_layer/screen/profile_screen/profile_sc
 import 'package:free_lottery/presentation_layer/screen/ticket_screen/ticket_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/winners_screen/winners_screen.dart';
 import 'package:get/get.dart';
-import 'package:free_lottery/data_layer/models/task_model.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/font_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';

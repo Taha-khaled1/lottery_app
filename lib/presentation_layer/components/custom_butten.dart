@@ -4,7 +4,7 @@ class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     required this.width,
-    required this.haigh,
+    required this.height,
     required this.color,
     required this.text,
     required this.press,
@@ -18,7 +18,7 @@ class CustomButton extends StatelessWidget {
 
   final Color color;
   final String text;
-  final double width, haigh;
+  final double width, height;
   final void Function()? press;
   final double? rectangel;
   final Color? colorText;
@@ -31,7 +31,7 @@ class CustomButton extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(7),
       width: width,
-      height: haigh,
+      height: height,
       decoration: ShapeDecoration(
         color: Color(0xFF7206FC),
         shape: RoundedRectangleBorder(

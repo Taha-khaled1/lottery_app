@@ -1,8 +1,5 @@
 import 'package:free_lottery/presentation_layer/components/nav_bar.dart';
 import 'package:free_lottery/presentation_layer/resources/routes_manager.dart';
-import 'package:free_lottery/presentation_layer/screen/auth/LoginScreen/login_screen.dart';
-import 'package:free_lottery/presentation_layer/screen/home_screen/home_screen.dart';
-
 import 'package:get/get.dart';
 // import 'package:free_lottery/presentation_layer/screen/auth/LoginScreen/login_screen.dart';
 // import 'package:free_lottery/presentation_layer/screen/auth/social_login/social_login.dart';

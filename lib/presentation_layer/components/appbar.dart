@@ -1,5 +1,4 @@
 import 'package:flutter_svg/svg.dart';
-import 'package:get/get.dart';
 // import 'package:free_lottery/presentation_layer/screen/notification_screen/notification_screen.dart';
 // import 'package:free_lottery/presentation_layer/screen/profile_screen/profile_screen.dart';
 import 'package:free_lottery/presentation_layer/src/style_packge.dart';

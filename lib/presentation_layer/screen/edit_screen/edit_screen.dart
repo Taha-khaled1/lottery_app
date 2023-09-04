@@ -143,7 +143,7 @@ class _EditScreenState extends State<EditScreen> {
                     boxShadowValue: BoxShadow(),
                     width: deviceInfo.localWidth * 0.85,
                     rectangel: 18,
-                    haigh: 60,
+                    height: 60,
                     color: ColorManager.kPrimary,
                     text: "Update",
                     colorText: Colors.white,

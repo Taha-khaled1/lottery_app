@@ -68,7 +68,7 @@ class SocialScreen extends StatelessWidget {
               return CustomButton(
                 width: deviceInfo.localWidth * 0.8,
                 rectangel: 18,
-                haigh: 60,
+                height: 60,
                 color: ColorManager.kPrimaryButton,
                 text: "Sign in with password",
                 press: () {

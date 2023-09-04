@@ -61,7 +61,7 @@ customLogoutShowBottomSheet(BuildContext context) {
                       boxShadowValue: BoxShadow(),
                       width: deviceInfo.localWidth * 0.42,
                       rectangel: 25,
-                      haigh: 60,
+                      height: 60,
                       color: Color(0xFFFFEEEF),
                       text: "Cancel",
                       colorText: Colors.black,
@@ -72,7 +72,7 @@ customLogoutShowBottomSheet(BuildContext context) {
                     CustomButton(
                       width: deviceInfo.localWidth * 0.42,
                       rectangel: 25,
-                      haigh: 60,
+                      height: 60,
                       color: ColorManager.kPrimaryButton,
                       text: "Yes, Logout",
                       press: () async {
@@ -152,7 +152,7 @@ customRatingShowBottomSheet(BuildContext context) {
                       boxShadowValue: BoxShadow(),
                       width: deviceInfo.localWidth * 0.42,
                       rectangel: 25,
-                      haigh: 60,
+                      height: 60,
                       color: Color(0xFFFFEEEF),
                       text: "Later",
                       colorText: Colors.black,
@@ -163,7 +163,7 @@ customRatingShowBottomSheet(BuildContext context) {
                     CustomButton(
                       width: deviceInfo.localWidth * 0.42,
                       rectangel: 25,
-                      haigh: 60,
+                      height: 60,
                       color: ColorManager.kPrimaryButton,
                       text: "Submit",
                       press: () async {

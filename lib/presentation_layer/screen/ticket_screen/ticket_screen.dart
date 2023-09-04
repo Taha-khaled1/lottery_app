@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
+import 'package:free_lottery/presentation_layer/screen/before_login_screen/before_login_screen.dart';
+import 'package:free_lottery/presentation_layer/utils/is_login/is_login.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 import 'package:intl/intl.dart';
 
@@ -126,25 +128,30 @@ class TicketsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: ColorManager.background,
-      appBar: appbar(title: "Your Tickets", isBack: false),
-      body: InfoWidget(
-        builder: (context, deviceInfo) {
-          return ListView.builder(
-            itemCount: 10, // Replace with the actual number of tickets
-            itemBuilder: (BuildContext context, int index) {
-              // Sample data for demonstration. Replace with actual data.
-              return CreativeTicketCard(
-                ticketNumber: "ABC12345",
-                purchaseDate: DateTime.now().subtract(Duration(days: index)),
-                lotteryDate: DateTime.now().add(Duration(hours: 24 - index)),
-                status: index % 2 == 0 ? "Upcoming" : "Lost",
-              );
-            },
-          );
-        },
-      ),
-    );
+    return isLogin()
+        ? Scaffold(
+            backgroundColor: ColorManager.background,
+            appBar: appbar(title: "Your Tickets", isBack: false),
+            body: InfoWidget(
+              builder: (context, deviceInfo) {
+                return ListView.builder(
+                  itemCount: 10, // Replace with the actual number of tickets
+                  itemBuilder: (BuildContext context, int index) {
+                    // Sample data for demonstration. Replace with actual data.
+                    return CreativeTicketCard(
+                      ticketNumber: "ABC12345",
+                      purchaseDate:
+                          DateTime.now().subtract(Duration(days: index)),
+                      lotteryDate:
+                          DateTime.now().add(Duration(hours: 24 - index)),
+                      status: index % 2 == 0 ? "Upcoming" : "Lost",
+                    );
+                  },
+                );
+              },
+            ),
+          )
+        : BeforeLoginScreen();
+    ;
   }
 }

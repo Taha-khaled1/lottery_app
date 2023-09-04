@@ -28,8 +28,14 @@ void main() async {
   );
 }
 
-void printHello() {
-  final DateTime now = DateTime.now();
-  final int isolateId = Isolate.current.hashCode;
-  print("[$now] Hello, world! isolate=${isolateId} function='$printHello");
-}
+// void printHello() {
+//   final DateTime now = DateTime.now();
+//   final int isolateId = Isolate.current.hashCode;
+//   print("[$now] Hello, world! isolate=${isolateId} function='$printHello");
+// }
+//         await NotificationService().alarmCallback(
+//           des: notificationList[randomIndex].description,
+//           scheduleDate: combinedDateTime,
+//           title: notificationList[randomIndex].title,
+//         );
+//         showToast('The task was created successfully');

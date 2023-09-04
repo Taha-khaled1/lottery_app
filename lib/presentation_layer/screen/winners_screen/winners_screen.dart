@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
+import 'package:free_lottery/presentation_layer/test.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
+import 'package:get/get.dart';
 
 class WinnerCard extends StatelessWidget {
   final String name;
@@ -18,23 +20,30 @@ class WinnerCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 5,
-      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: ListTile(
-        contentPadding: EdgeInsets.all(15),
-        leading: CircleAvatar(
-          radius: 30,
-          backgroundImage: AssetImage(imageUrl),
-        ),
-        title: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: Text('Ticket: $ticket'),
-        trailing: CircleAvatar(
-          backgroundColor: ColorManager.kPrimary,
-          child: Text(
-            '#$rank',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+    return GestureDetector(
+      onTap: () {
+        // TestScreen();
+        Get.to(() => TestScreen());
+      },
+      child: Card(
+        elevation: 5,
+        margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+        child: ListTile(
+          contentPadding: EdgeInsets.all(15),
+          leading: CircleAvatar(
+            radius: 30,
+            backgroundImage: AssetImage(imageUrl),
+          ),
+          title: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
+          subtitle: Text('Ticket: $ticket'),
+          trailing: CircleAvatar(
+            backgroundColor: ColorManager.kPrimary,
+            child: Text(
+              '#$rank',
+              style:
+                  TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            ),
           ),
         ),
       ),

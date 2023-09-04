@@ -1,23 +1,15 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:free_lottery/main.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
 import 'package:free_lottery/presentation_layer/components/custom_text_field.dart';
-import 'package:free_lottery/presentation_layer/components/nav_bar.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/font_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/LoginScreen/login_controller/login_controller.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/LoginScreen/widget/RemperCHeckBox.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/LoginScreen/widget/StandSocialLogin.dart';
-import 'package:free_lottery/presentation_layer/screen/auth/LoginScreen/widget/circle_social_button.dart';
-import 'package:free_lottery/presentation_layer/screen/auth/forget_password/forget_password.dart';
-import 'package:free_lottery/presentation_layer/screen/auth/info_account_screen/info_account_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/siginUp_screen/siginUp_screen.dart';
-import 'package:free_lottery/presentation_layer/screen/auth/social_login/social_login.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/social_login/widget/EndAuthPage.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/social_login/widget/custom_dvider.dart';
 import 'package:free_lottery/presentation_layer/src/get_packge.dart';
@@ -108,7 +100,7 @@ class LoginScreen extends StatelessWidget {
                           ? CustomButton(
                               width: deviceInfo.localWidth * 0.8,
                               rectangel: 18,
-                              haigh: 60,
+                              height: 60,
                               color: ColorManager.kPrimaryButton,
                               text: "Sign in",
                               press: () {

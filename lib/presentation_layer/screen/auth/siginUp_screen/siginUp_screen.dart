@@ -132,7 +132,7 @@ class SiginUpScreen extends StatelessWidget {
                           ? CustomButton(
                               width: deviceInfo.localWidth * 0.8,
                               rectangel: 18,
-                              haigh: 60,
+                              height: 60,
                               color: ColorManager.kPrimaryButton,
                               text: "Sign up",
                               press: () {

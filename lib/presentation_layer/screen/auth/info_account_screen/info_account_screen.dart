@@ -166,7 +166,7 @@ class _InfoAccountState extends State<InfoAccount> {
                       boxShadowValue: BoxShadow(),
                       width: deviceInfo.localWidth * 0.42,
                       rectangel: 18,
-                      haigh: 60,
+                      height: 60,
                       color: Color(0xffFFEEEF),
                       text: "Skip",
                       colorText: Colors.black,
@@ -193,7 +193,7 @@ class _InfoAccountState extends State<InfoAccount> {
                     CustomButton(
                       width: deviceInfo.localWidth * 0.42,
                       rectangel: 18,
-                      haigh: 60,
+                      height: 60,
                       color: ColorManager.kPrimaryButton,
                       text: "Start",
                       press: () async {

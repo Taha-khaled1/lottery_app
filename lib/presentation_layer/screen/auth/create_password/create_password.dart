@@ -68,7 +68,7 @@ class CreatePassword extends StatelessWidget {
               Spacer(),
               CustomButton(
                 width: deviceInfo.localWidth * 0.85,
-                haigh: 55,
+                height: 55,
                 color: ColorManager.kPrimary,
                 text: 'Continue',
                 press: () {
