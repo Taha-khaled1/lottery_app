@@ -1,4 +1,6 @@
-import 'dart:isolate';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:free_lottery/presentation_layer/notification_service/notification_service.dart';
+import 'package:free_lottery/presentation_layer/utils/NotificationHandler.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 // import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
@@ -18,7 +20,10 @@ void main() async {
   }
   tz.initializeTimeZones();
   await Firebase.initializeApp();
-  // await NotificationService().initializePlatformNotifications();
+  await NotificationService().initializePlatformNotifications();
+  NotificationHandler notificationHandler = NotificationHandler();
+  await notificationHandler.initialize();
+
   // await AndroidAlarmManager.initialize();
   runApp(
     DevicePreview(
@@ -27,15 +32,3 @@ void main() async {
     ),
   );
 }
-
-// void printHello() {
-//   final DateTime now = DateTime.now();
-//   final int isolateId = Isolate.current.hashCode;
-//   print("[$now] Hello, world! isolate=${isolateId} function='$printHello");
-// }
-//         await NotificationService().alarmCallback(
-//           des: notificationList[randomIndex].description,
-//           scheduleDate: combinedDateTime,
-//           title: notificationList[randomIndex].title,
-//         );
-//         showToast('The task was created successfully');

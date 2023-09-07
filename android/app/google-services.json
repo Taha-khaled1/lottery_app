@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "176645737115",
-    "project_id": "free-lottery-e858f",
-    "storage_bucket": "free-lottery-e858f.appspot.com"
+    "project_number": "6001447946",
+    "project_id": "free-lottery-2a3de",
+    "storage_bucket": "free-lottery-2a3de.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:176645737115:android:fc6b89e03adc329c3b943e",
+        "mobilesdk_app_id": "1:6001447946:android:4bc3a3f14d92c057563bf3",
         "android_client_info": {
-          "package_name": "com.example.free_lottery"
+          "package_name": "com.lottorealm.freewin"
         }
       },
       "oauth_client": [
         {
-          "client_id": "176645737115-9572jj6a301htn2n7l9548dl9qvnvl61.apps.googleusercontent.com",
+          "client_id": "6001447946-0b2vqfomk1dvhfjchrdd0ldqc73gpac3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.free_lottery",
+            "package_name": "com.lottorealm.freewin",
             "certificate_hash": "917855d086c4eda8722607c910bef50a76ad0c72"
           }
         },
         {
-          "client_id": "176645737115-n5peslu65rlpf9brgincgljk4t91eeh2.apps.googleusercontent.com",
+          "client_id": "6001447946-kurm6opheft8iibdhulsu4bl317vpggj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDF9iAK7rx2YNeA2HwBc1m6m0c7O-5e-Hg"
+          "current_key": "AIzaSyB1fEVslffOwLf0BjIBt-rD7SJLnyDD1ag"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "176645737115-n5peslu65rlpf9brgincgljk4t91eeh2.apps.googleusercontent.com",
+              "client_id": "6001447946-kurm6opheft8iibdhulsu4bl317vpggj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

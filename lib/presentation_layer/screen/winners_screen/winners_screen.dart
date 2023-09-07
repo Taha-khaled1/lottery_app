@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
+import 'package:free_lottery/presentation_layer/screen/winners_screen/winners_controller.dart';
 import 'package:free_lottery/presentation_layer/test.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
+import 'package:free_lottery/presentation_layer/utils/shard_function/image_checker.dart';
 import 'package:get/get.dart';
 
 class WinnerCard extends StatelessWidget {
@@ -33,10 +35,10 @@ class WinnerCard extends StatelessWidget {
           contentPadding: EdgeInsets.all(15),
           leading: CircleAvatar(
             radius: 30,
-            backgroundImage: AssetImage(imageUrl),
+            backgroundImage: NetworkImage(imageNetworkCheck(imageUrl)),
           ),
           title: Text(name, style: TextStyle(fontWeight: FontWeight.bold)),
-          subtitle: Text('Ticket: $ticket'),
+          subtitle: Text('wallet: $ticket'),
           trailing: CircleAvatar(
             backgroundColor: ColorManager.kPrimary,
             child: Text(
@@ -61,16 +63,19 @@ class WinnersScreen extends StatelessWidget {
       appBar: appbar(title: "Winners", isBack: false),
       body: InfoWidget(
         builder: (context, deviceInfo) {
-          return ListView.builder(
-            itemCount:
-                10, // You can change this to the actual number of winners
-            itemBuilder: (BuildContext context, int index) {
-              // Sample data for demonstration. Replace with actual data.
-              return WinnerCard(
-                name: "John Doe",
-                imageUrl: "assets/images/profile.jpg",
-                ticket: "123456",
-                rank: index + 1,
+          return GetBuilder<WinnersController>(
+            init: WinnersController(),
+            builder: (controller) {
+              return ListView.builder(
+                itemCount: controller.users.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return WinnerCard(
+                    name: controller.users[index].name,
+                    imageUrl: controller.users[index].image,
+                    ticket: controller.users[index].wallet.toString(),
+                    rank: index + 1,
+                  );
+                },
               );
             },
           );

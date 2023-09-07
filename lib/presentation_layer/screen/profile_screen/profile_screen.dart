@@ -17,6 +17,7 @@ import 'package:free_lottery/presentation_layer/screen/screenseting/terms_screen
 import 'package:free_lottery/presentation_layer/src/get_packge.dart';
 import 'package:free_lottery/presentation_layer/utils/is_login/is_login.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
+import 'package:free_lottery/presentation_layer/utils/shard_function/image_checker.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -33,11 +34,9 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       CustomCircleImage(
                         radius: 70,
-                        image: sharedPreferences.getString('image') == null ||
-                                sharedPreferences.getString('image')!.isEmpty ||
-                                sharedPreferences.getString('image') == ''
-                            ? 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-                            : sharedPreferences.getString('image'),
+                        image: imageNetworkCheck(
+                          sharedPreferences.getString("image"),
+                        ),
                       ),
                       SizedBox(height: 10),
                       Text(

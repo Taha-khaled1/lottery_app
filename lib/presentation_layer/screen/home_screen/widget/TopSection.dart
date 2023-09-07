@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
+import 'package:free_lottery/presentation_layer/notification_service/notification_service.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/font_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';
+import 'package:free_lottery/presentation_layer/screen/auth/LoginScreen/login_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/home_controller/home_controller.dart';
+import 'package:free_lottery/presentation_layer/screen/home_screen/test.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/widget/stopwatch.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/models/device_info.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 
 import 'WithdrawDialog.dart';
@@ -36,82 +40,102 @@ class TopSection extends StatelessWidget {
           fit: BoxFit.cover,
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          // Wallet with total profits
-          Column(
-            children: [
-              SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Wallet",
-                style: MangeStyles().getBoldStyle(
-                  color: ColorManager.white,
-                  fontSize: FontSize.s25,
-                ),
-              ),
-              // SizedBox(height: 10),
-              Text(
-                "\$2,430.00",
-                style: MangeStyles().getBoldStyle(
-                  color: ColorManager.white,
-                  fontSize: FontSize.s25,
-                ),
-              ),
-            ],
-          ),
-          // SizedBox(height: 20),
-
-          Transform.translate(
-            offset: Offset(-12, 0),
-            child: GestureDetector(
-              onTap: () {
-                showWithdrawDialog(context);
-              },
-              child: SizedBox(
-                width: deviceInfo.localWidth * 0.6,
-                height: 100,
-                child: Stack(
+      child: homeController.user != null
+          ? Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                // Wallet with total profits
+                Column(
                   children: [
-                    Lottie.asset(
-                      "assets/json/anmieButton.json",
-                      fit: BoxFit.cover,
-                      height: 100,
-                      width: deviceInfo.localWidth * 0.6,
+                    SizedBox(
+                      height: 10,
                     ),
-                    Positioned(
-                      right: 0,
-                      left: 47,
-                      top: 35,
-                      child: Text(
-                        "withdrawal request",
-                        style: MangeStyles().getBoldStyle(
-                          color: ColorManager.white,
-                          fontSize: FontSize.s18,
-                        ),
+                    Text(
+                      "Wallet",
+                      style: MangeStyles().getBoldStyle(
+                        color: ColorManager.white,
+                        fontSize: FontSize.s25,
+                      ),
+                    ),
+                    // SizedBox(height: 10),
+                    Text(
+                      "\$ ${homeController.user!.wallet}",
+                      style: MangeStyles().getBoldStyle(
+                        color: ColorManager.white,
+                        fontSize: FontSize.s25,
                       ),
                     ),
                   ],
                 ),
-              ),
+                // SizedBox(height: 20),
+
+                Transform.translate(
+                  offset: Offset(-12, 0),
+                  child: GestureDetector(
+                    onTap: () async {
+                      endLottery(
+                          homeController.currentLottery.value!.lotteryId);
+                      // showToast('The task was created successfully');
+                      // showWithdrawDialog(context);
+                    },
+                    child: SizedBox(
+                      width: deviceInfo.localWidth * 0.6,
+                      height: 100,
+                      child: Stack(
+                        children: [
+                          Lottie.asset(
+                            "assets/json/anmieButton.json",
+                            fit: BoxFit.cover,
+                            height: 100,
+                            width: deviceInfo.localWidth * 0.6,
+                          ),
+                          Positioned(
+                            right: 0,
+                            left: 47,
+                            top: 35,
+                            child: Text(
+                              "withdrawal request",
+                              style: MangeStyles().getBoldStyle(
+                                color: ColorManager.white,
+                                fontSize: FontSize.s18,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                // CustomButton(
+                //   width: deviceInfo.localWidth * 0.6,
+                //   height: 55,
+                //   color: ColorManager.kPrimary,
+                //   text: "withdrawal request",
+                //   press: () {
+                //     // CountDownTimerPage.navigatorPush(context);
+
+                //     // homeController.startPomo();
+                //   },
+                // ),
+              ],
+            )
+          : Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(),
+                CustomButton(
+                  width: deviceInfo.localWidth * 0.8,
+                  height: 55,
+                  color: ColorManager.kPrimary,
+                  text: "You must log in",
+                  fontSize: 18,
+                  press: () {
+                    Get.to(() => LoginScreen());
+                  },
+                ),
+              ],
             ),
-          ),
-
-          // CustomButton(
-          //   width: deviceInfo.localWidth * 0.6,
-          //   height: 55,
-          //   color: ColorManager.kPrimary,
-          //   text: "withdrawal request",
-          //   press: () {
-          //     // CountDownTimerPage.navigatorPush(context);
-
-          //     // homeController.startPomo();
-          //   },
-          // ),
-        ],
-      ),
     );
   }
 }

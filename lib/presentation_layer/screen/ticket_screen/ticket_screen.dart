@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:free_lottery/data_layer/models/ticke_model.dart';
+import 'package:free_lottery/main.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
+import 'package:free_lottery/presentation_layer/resources/font_manager.dart';
+import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';
 import 'package:free_lottery/presentation_layer/screen/before_login_screen/before_login_screen.dart';
+import 'package:free_lottery/presentation_layer/screen/ticket_screen/ticket_controller.dart';
 import 'package:free_lottery/presentation_layer/utils/is_login/is_login.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class CreativeTicketCard extends StatelessWidget {
@@ -128,30 +134,100 @@ class TicketsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TicketController controller = Get.put(TicketController());
+
     return isLogin()
-        ? Scaffold(
-            backgroundColor: ColorManager.background,
-            appBar: appbar(title: "Your Tickets", isBack: false),
-            body: InfoWidget(
-              builder: (context, deviceInfo) {
-                return ListView.builder(
-                  itemCount: 10, // Replace with the actual number of tickets
-                  itemBuilder: (BuildContext context, int index) {
-                    // Sample data for demonstration. Replace with actual data.
-                    return CreativeTicketCard(
-                      ticketNumber: "ABC12345",
-                      purchaseDate:
-                          DateTime.now().subtract(Duration(days: index)),
-                      lotteryDate:
-                          DateTime.now().add(Duration(hours: 24 - index)),
-                      status: index % 2 == 0 ? "Upcoming" : "Lost",
-                    );
-                  },
-                );
-              },
+        ? DefaultTabController(
+            animationDuration: Duration(milliseconds: 1000),
+            length: 3, // Number of tabs
+            child: Scaffold(
+              backgroundColor: ColorManager.background,
+              appBar: appbar(title: "Your Tickets", isBack: false),
+              body: Column(
+                children: [
+                  TabBar(
+                    indicatorColor: Colors.black,
+                    tabs: [
+                      Tab(
+                        child: Text(
+                          'Winners',
+                          style: MangeStyles().getBoldStyle(
+                            color: ColorManager.kPrimary,
+                            fontSize: FontSize.s18,
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Text(
+                          'Losers',
+                          style: MangeStyles().getBoldStyle(
+                            color: ColorManager.kPrimary,
+                            fontSize: FontSize.s18,
+                          ),
+                        ),
+                      ),
+                      Tab(
+                        child: Text(
+                          'Pending',
+                          style: MangeStyles().getBoldStyle(
+                            color: ColorManager.kPrimary,
+                            fontSize: FontSize.s18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Expanded(
+                    child: TabBarView(
+                      children: [
+                        buildTicketListView(
+                            context, controller.fetchWinningTickets),
+                        buildTicketListView(
+                            context, controller.fetchLosingTickets),
+                        buildTicketListView(
+                            context, controller.fetchPendingTickets),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         : BeforeLoginScreen();
-    ;
   }
+}
+
+Widget buildTicketListView(
+  BuildContext context,
+  Future<List<UserTicketModel>> Function(String) fetchFunction,
+) {
+  return FutureBuilder<List<UserTicketModel>>(
+    future: fetchFunction(sharedPreferences.getString("id")!),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return Center(
+            child: CircularProgressIndicator(
+          color: ColorManager.kPrimary,
+        )); // Show loading indicator
+      } else if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      } else if (snapshot.hasData) {
+        List<UserTicketModel> userTickets = snapshot.data!;
+        return ListView.builder(
+          itemCount: userTickets.length,
+          itemBuilder: (BuildContext context, int index) {
+            UserTicketModel ticket = userTickets[index];
+            return CreativeTicketCard(
+              ticketNumber: ticket.ticketId,
+              purchaseDate: DateTime.parse(ticket.createAt),
+              lotteryDate: DateTime.parse(ticket.endAt),
+              status: ticket.type,
+            );
+          },
+        );
+      } else {
+        return Text('No tickets available.');
+      }
+    },
+  );
 }

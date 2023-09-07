@@ -1,4 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:free_lottery/data_layer/models/winner_model.dart';
+import 'package:free_lottery/presentation_layer/screen/home_screen/home_controller/home_controller.dart';
+import 'package:free_lottery/presentation_layer/src/get_packge.dart';
+import 'package:free_lottery/presentation_layer/utils/shard_function/image_checker.dart';
 
 class WinnerCard extends StatelessWidget {
   final String name;
@@ -29,10 +34,17 @@ class WinnerCard extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          CircleAvatar(
-            radius: 35,
-            backgroundImage: AssetImage(imageUrl),
-            backgroundColor: Colors.transparent,
+          ClipOval(
+            child: CachedNetworkImage(
+              imageUrl: imageNetworkCheck(imageUrl),
+              width: 70,
+              height: 70,
+              fit: BoxFit.cover,
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Image.network(
+                'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
+              ),
+            ),
           ),
           SizedBox(height: 10),
           Text(
@@ -56,6 +68,9 @@ class WinnerCard extends StatelessWidget {
 }
 
 class AnimatedWinnersList extends StatefulWidget {
+  final HomeController homeController;
+
+  const AnimatedWinnersList({super.key, required this.homeController});
   @override
   _AnimatedWinnersListState createState() => _AnimatedWinnersListState();
 }
@@ -101,7 +116,11 @@ class _AnimatedWinnersListState extends State<AnimatedWinnersList> {
       if (_scrollController.hasClients) {
         if (_scrollController.offset >=
             _scrollController.position.maxScrollExtent) {
-          _scrollController.jumpTo(_scrollController.position.minScrollExtent);
+          _scrollController.animateTo(
+            _scrollController.position.minScrollExtent,
+            duration: Duration(milliseconds: 1500),
+            curve: Curves.easeOut,
+          );
         } else {
           _scrollController.animateTo(
             _scrollController.offset + 170,
@@ -115,20 +134,23 @@ class _AnimatedWinnersListState extends State<AnimatedWinnersList> {
 
   @override
   Widget build(BuildContext context) {
+    List<WinnerModel> latestWinners = widget.homeController.latestWinners;
     return Container(
       height: 162,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        controller: _scrollController,
-        itemCount: winners.length,
-        itemBuilder: (context, index) {
-          return WinnerCard(
-            name: winners[index]["name"]!,
-            prize: winners[index]["prize"]!,
-            imageUrl: winners[index]["imageUrl"]!,
-          );
-        },
-      ),
+      child: latestWinners.isNotEmpty
+          ? ListView.builder(
+              scrollDirection: Axis.horizontal,
+              controller: _scrollController,
+              itemCount: latestWinners.length,
+              itemBuilder: (context, index) {
+                return WinnerCard(
+                  name: latestWinners[index].name!,
+                  prize: latestWinners[index].prize!.toString(),
+                  imageUrl: imageNetworkCheck(latestWinners[index].image),
+                );
+              },
+            )
+          : SizedBox(),
     );
   }
 }

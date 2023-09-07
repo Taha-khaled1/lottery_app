@@ -36,6 +36,7 @@ class SiginUpController extends GetxController {
       await userDoc.set({
         'userId': sharedPreferences.getString('id'),
         'image': sharedPreferences.getString('image'),
+        'wallet': "0",
       });
       Get.offAll(() => InfoAccount(
             isgoogle: false,

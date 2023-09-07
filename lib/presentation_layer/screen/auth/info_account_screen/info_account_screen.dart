@@ -205,7 +205,7 @@ class _InfoAccountState extends State<InfoAccount> {
                           if (formkeysigin.currentState!.validate()) {
                             formkeysigin.currentState!.save();
 
-                            await userDoc.set({
+                            await userDoc.update({
                               'name':
                                   name ?? sharedPreferences.getString('name'),
                               'userId': sharedPreferences.getString('id'),

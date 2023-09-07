@@ -1,4 +1,4 @@
-package com.example.free_lottery
+package com.lottorealm.freewin
 
 import io.flutter.embedding.android.FlutterActivity
 

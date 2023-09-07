@@ -30,7 +30,9 @@ class NotificationService {
     await localNotifications.initialize(
       initializationSettings,
       onDidReceiveNotificationResponse: (details) {
-        selectNotification('');
+        name();
+        print(".....................................");
+        selectNotification(details.payload);
       },
     );
   }
@@ -43,6 +45,11 @@ class NotificationService {
   void selectNotification(String? payload) {
     if (payload != null && payload.isNotEmpty) {
       behaviorSubject.add(payload);
+
+      // If you want to execute a specific function based on the payload:
+      // if (payload == "name") {
+      name(); // This will execute the 'name' function when the payload matches "name"
+      // }
     }
   }
 
@@ -74,6 +81,10 @@ class NotificationService {
     );
   }
 
+  void name() {
+    print("#######################################");
+  }
+
   Future<void> alarmCallback(
       {required String title,
       required String des,
@@ -96,9 +107,9 @@ class NotificationService {
           androidAllowWhileIdle: true,
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime,
+          payload: "name",
         );
   }
-  ///////////
 }
 
 // void onDidReceiveLocalNotification(

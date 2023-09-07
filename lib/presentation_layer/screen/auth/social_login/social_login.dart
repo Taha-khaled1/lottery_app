@@ -161,6 +161,7 @@ Future<UserCredential> signInWithGoogle() async {
           'image': sharedPreferences.getString('image'),
           'phone': "000000",
           'code': "US",
+          'wallet': "0",
         });
         Get.offAll(() => InfoAccount(
               isgoogle: true,
