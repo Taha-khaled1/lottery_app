@@ -218,7 +218,7 @@ Widget buildTicketListView(
           itemBuilder: (BuildContext context, int index) {
             UserTicketModel ticket = userTickets[index];
             return CreativeTicketCard(
-              ticketNumber: ticket.ticketId,
+              ticketNumber: ticket.ticketNumber.toString(),
               purchaseDate: DateTime.parse(ticket.createAt),
               lotteryDate: DateTime.parse(ticket.endAt),
               status: ticket.type,

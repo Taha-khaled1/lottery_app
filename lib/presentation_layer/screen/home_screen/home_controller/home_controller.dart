@@ -7,6 +7,7 @@ import 'package:free_lottery/data_layer/models/winner_model.dart';
 import 'package:free_lottery/main.dart';
 import 'package:free_lottery/presentation_layer/screen/award_screen/award_screen.dart';
 import 'package:free_lottery/presentation_layer/utils/is_login/is_login.dart';
+import 'package:free_lottery/presentation_layer/utils/shard_function/printing_function_red.dart';
 import 'package:get/get.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
@@ -59,7 +60,22 @@ class HomeController extends GetxController {
     final minutes = timeDifference.inMinutes % 60;
     final seconds = timeDifference.inSeconds % 60;
 
-    return timeDifference.inSeconds.toInt();
+    return timeDifference.inSeconds.toInt() + 20;
+  }
+
+  Future<WinnerModel?> getLatestWinner() async {
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection('winners')
+        .orderBy('create_at', descending: true)
+        .limit(1)
+        .get();
+
+    if (querySnapshot.docs.isNotEmpty) {
+      return WinnerModel.fromMap(
+          querySnapshot.docs.first.data() as Map<String, dynamic>);
+    } else {
+      return null; // or handle this case appropriately
+    }
   }
 
   Future<List<WinnerModel>> getLatestWinners({int limit = 5}) async {
@@ -78,43 +94,48 @@ class HomeController extends GetxController {
   }
 
   Future<bool> createTicketForUser() async {
-    final batch = FirebaseFirestore.instance.batch();
-    // Ensure a valid lottery is active
-    // final querySnapshot = await FirebaseFirestore.instance
-    //     .collection('lottery')
-    //     .where('status', isEqualTo: true)
-    //     .limit(1)
-    //     .get();
+    return await FirebaseFirestore.instance.runTransaction((transaction) async {
+      // Fetch the current lottery and update its totalticket value
+      final lotteryRef = FirebaseFirestore.instance
+          .collection('lottery')
+          .doc(currentLottery.value!.lotteryId);
 
-    // if (querySnapshot.docs.isEmpty) {
-    //   print("No active lottery.");
-    //   return false;
-    // }
+      DocumentSnapshot lotterySnapshot = await transaction.get(lotteryRef);
+      if (!lotterySnapshot.exists) {
+        throw Exception("Document does not exist!");
+      }
 
-    // final currentLottery = querySnapshot.docs.first;
-    // final String currentLotteryId = currentLottery.id;
+      int newTotalTicket = lotterySnapshot.get('totalticket') + 1;
 
-    // Create a ticket document in Firestore
-    final ticketData = {
-      'user_id': sharedPreferences.get('id'),
-      'lottery_id': currentLottery.value!.lotteryId,
-      'status': true, // assuming this is for active tickets
-      'create_at': DateTime.now().toString(),
-      'type': "Upcoming",
-      'end_at': currentLottery.value!.timeEnd
-          .toString() // assuming you want to set end time as lottery end time
-    };
+      // Create a new ticket
+      final ticketData = {
+        'user_id': sharedPreferences.get('id'),
+        'lottery_id': currentLottery.value!.lotteryId,
+        'status': true, // assuming this is for active tickets
+        'create_at': DateTime.now().toString(),
+        'type': "Upcoming",
+        'ticket_number': newTotalTicket,
+        'end_at': currentLottery.value!.timeEnd
+            .toString() // assuming you want to set end time as lottery end time
+      };
 
-    final ticketRef = FirebaseFirestore.instance
-        .collection('tickets')
-        .doc(); // Generate a new document ID
+      final ticketRef = FirebaseFirestore.instance
+          .collection('tickets')
+          .doc(); // Generate a new document ID
+      transaction.set(ticketRef, ticketData);
+      transaction.update(ticketRef, {'ticket_id': ticketRef.id});
+      transaction.update(lotteryRef, {'totalticket': newTotalTicket});
 
-    batch.set(ticketRef, ticketData);
-    batch.update(ticketRef, {'ticket_id': ticketRef.id});
+      return true;
+    });
+  }
 
-    await batch.commit();
-
-    return true;
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getCurrentLotteryStream() {
+    final lotteryRef = FirebaseFirestore.instance
+        .collection('lottery')
+        .doc(currentLottery.value!.lotteryId);
+    print(lotteryRef.snapshots());
+    return lotteryRef.snapshots();
   }
 
   @override
@@ -135,19 +156,21 @@ class HomeController extends GetxController {
       onStopped: () {
         print('onStopped');
       },
-      onEnded: () {
+      onEnded: () async {
+        WinnerModel? winnerModel = await getLatestWinner();
+
+        if (winnerModel != null) {
+          printRedColor(winnerModel.prize);
+          Get.off(
+            () => AwardScreen(
+              winnerModel: winnerModel,
+            ),
+          );
+        } else {
+          print('No winners found.');
+        }
+
         print('onEnded');
-        final winnerModel = WinnerModel(
-          name: "taha khaled",
-          image:
-              "https://img.freepik.com/premium-photo/girl-is-taking-photo-with-camera_727939-5369.jpg",
-          prize: "2.500",
-        );
-        Get.off(
-          () => AwardScreen(
-            winnerModel: winnerModel,
-          ),
-        );
       },
     );
 
@@ -173,3 +196,19 @@ class HomeController extends GetxController {
     super.onClose();
   }
 }
+    // Ensure a valid lottery is active
+    // final querySnapshot = await FirebaseFirestore.instance
+    //     .collection('lottery')
+    //     .where('status', isEqualTo: true)
+    //     .limit(1)
+    //     .get();
+
+    // if (querySnapshot.docs.isEmpty) {
+    //   print("No active lottery.");
+    //   return false;
+    // }
+
+    // final currentLottery = querySnapshot.docs.first;
+    // final String currentLotteryId = currentLottery.id;
+
+    // Create a ticket document in Firestore

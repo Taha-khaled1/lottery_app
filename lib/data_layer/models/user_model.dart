@@ -22,7 +22,7 @@ class UserModel {
       name: map['name'] ?? "",
       phone: map['phone'] ?? "",
       userId: map['userId'] ?? "",
-      wallet: double.parse(map['wallet'] ?? "0.0"),
+      wallet: double.parse(map['wallet'].toString() ?? "0.0"),
     );
   }
 }

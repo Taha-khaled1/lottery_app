@@ -4,6 +4,7 @@ class UserTicketModel {
   final String lotteryId;
   final bool status;
   final String ticketId;
+  final int ticketNumber;
   final String type;
   final String userId;
 
@@ -15,10 +16,12 @@ class UserTicketModel {
     required this.ticketId,
     required this.type,
     required this.userId,
+    required this.ticketNumber,
   });
 
   factory UserTicketModel.fromMap(Map<String, dynamic> map) {
     return UserTicketModel(
+      ticketNumber: map['ticket_number'] ?? "",
       createAt: map['create_at'] ?? "",
       endAt: map['end_at'] ?? "",
       lotteryId: map['lottery_id'] ?? "",

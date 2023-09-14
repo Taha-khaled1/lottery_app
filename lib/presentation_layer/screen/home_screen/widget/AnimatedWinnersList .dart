@@ -50,12 +50,12 @@ class WinnerCard extends StatelessWidget {
           Text(
             name,
             style: TextStyle(
-                fontSize: 18,
+                fontSize: 15,
                 fontWeight: FontWeight.bold,
                 color: Colors.black54),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 5),
+          // SizedBox(height: 5),
           Text(
             "\$$prize",
             style: TextStyle(

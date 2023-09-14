@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:free_lottery/presentation_layer/utils/NotificationHandler.dart';
 import 'package:get/get.dart';
 import 'package:free_lottery/main.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/info_account_screen/info_account_screen.dart';
@@ -33,10 +34,12 @@ class SiginUpController extends GetxController {
       final userDoc = FirebaseFirestore.instance
           .collection('users')
           .doc(sharedPreferences.getString('id'));
+      String token = await NotificationHandler().userToken();
       await userDoc.set({
         'userId': sharedPreferences.getString('id'),
         'image': sharedPreferences.getString('image'),
         'wallet': "0",
+        "fcm": token,
       });
       Get.offAll(() => InfoAccount(
             isgoogle: false,
@@ -50,6 +53,7 @@ class SiginUpController extends GetxController {
         print('The account already exists for that email.');
       }
     } catch (e) {
+      showToast('$e.');
       print(e);
     }
     isload = false;

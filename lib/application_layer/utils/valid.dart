@@ -18,6 +18,12 @@ validInput(String val, int min, int max, String type) {
     }
   }
 
+  if (type == "number") {
+    if (!GetUtils.isNum(val)) {
+      return "not valid number";
+    }
+  }
+
   if (val.isEmpty) {
     return "can't be Empty";
   }

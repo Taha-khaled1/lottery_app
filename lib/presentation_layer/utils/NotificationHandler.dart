@@ -8,6 +8,13 @@ class NotificationHandler {
     print("FCM Token: $token");
   }
 
+  Future<String> userToken() async {
+    String? token = await _firebaseMessaging.getToken();
+    print("FCM Token: $token");
+
+    return token ?? "";
+  }
+
   /// Initialize Firebase and setup listeners
   Future<void> initialize() async {
     _printUserToken();

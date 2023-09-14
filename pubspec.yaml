@@ -66,7 +66,10 @@ dependencies:
   stop_watch_timer: ^3.0.1
   google_mobile_ads: ^3.0.0
   firebase_messaging: ^14.6.7
-
+  flutter_paypal_checkout: ^1.0.1
+  animated_text_kit: ^4.2.2
+  shimmer: ^3.0.0
+  connectivity_plus: ^4.0.2
 
   
 dev_dependencies:

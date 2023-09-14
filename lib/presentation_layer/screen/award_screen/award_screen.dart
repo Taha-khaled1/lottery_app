@@ -5,6 +5,7 @@ import 'package:free_lottery/presentation_layer/components/nav_bar.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/font_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';
+import 'package:free_lottery/presentation_layer/screen/award_screen/widget/WinningTicketWidget.dart';
 import 'package:free_lottery/presentation_layer/src/get_packge.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 import 'package:lottie/lottie.dart';
@@ -51,12 +52,11 @@ class AwardScreen extends StatelessWidget {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(right: 0),
+                    padding: const EdgeInsets.only(right: 0, bottom: 140),
                     child: Align(
                       alignment: Alignment.bottomCenter,
                       child: FractionalTranslation(
-                        translation:
-                            Offset(0.0, -0.5), // Adjust vertical position
+                        translation: Offset(0.0, 0), // Adjust vertical position
                         child: ClipOval(
                           child: CachedNetworkImage(
                             imageUrl: imageNetworkCheck(winnerModel.image),
@@ -73,9 +73,9 @@ class AwardScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  SizedBox(
-                    height: 40,
-                  ),
+                  // SizedBox(
+                  //   height: 40,
+                  // ),
                   Transform.translate(
                     offset: Offset(0, 50),
                     child: Text(
@@ -83,6 +83,18 @@ class AwardScreen extends StatelessWidget {
                       style: MangeStyles().getBoldStyle(
                         color: ColorManager.black,
                         fontSize: FontSize.s22,
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    top: 0,
+                    child: Transform.translate(
+                      offset: Offset(0, -50),
+                      child: WinningTicketWidget(
+                        name: winnerModel.name,
+                        prize: double.parse(winnerModel.prize.toString()),
+                        ticket_id: winnerModel.ticket_id.toString(),
+                        ticket_number: winnerModel.ticket_number,
                       ),
                     ),
                   ),

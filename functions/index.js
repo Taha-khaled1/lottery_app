@@ -19,8 +19,9 @@ admin.initializeApp();
 // admin.initializeApp();
 
 const db = admin.firestore();
-
-exports.endLottery = functions.pubsub.schedule("every 10 minutes").
+// every 4 hours
+// every 10 minutes
+exports.endLotteryApp = functions.pubsub.schedule("every 4 hours").
     timeZone("UTC").onRun(async (context) => {
       const lotteryId = await fetchCurrentLotteryId();
 
@@ -35,11 +36,41 @@ exports.endLottery = functions.pubsub.schedule("every 10 minutes").
 
       // Check if there are no tickets
       if (ticketSnapshot.empty) {
-        console.log("No tickets found. Exiting function.");
+        console.log("No tickets found.");
+
+        // Fetch the current time_end value
+        // const lotteryDoc = await db.collection("lottery").doc(lotteryId).
+        // get();
+        // const currentEndTimeStr = lotteryDoc.data().time_end;
+
+        // Sanitize the currentEndTimeStr
+        // const sanitizedEndTimeStr = currentEndTimeStr.
+        //     replace(/\s+/g, " ").replace(/:\s+/g, ":");
+
+        // Convert the sanitized string to a Date object
+        // const endTimeDate = new Date(sanitizedEndTimeStr);
+
+        // Add 10 minutes
+        // endTimeDate.setMinutes(endTimeDate.getMinutes() + 10);
+
+        // Convert the Date object back to the desired string format
+        // eslint-disable-next-line max-len
+        // const updatedEndTimeStr = `${endTimeDate.getFullYear()}-${String(endTimeDate.getMonth() + 1).padStart(2, "0")}-${String(endTimeDate.getDate()).padStart(2, "0")} ${String(endTimeDate.getHours()).padStart(2, "0")}:${String(endTimeDate.getMinutes()).padStart(2, "0")}:${String(endTimeDate.getSeconds()).padStart(2, "0")}.${String(endTimeDate.getMilliseconds()).padStart(6, "0")}`;
+
+        const endTime = new Date();
+        // endTime.setHours(endTime.getHours() + 1); // Add 1 hour
+        // endTime.setMinutes(endTime.getMinutes() + 10);
+        endTime.setHours(endTime.getHours() + 4);
+        // Update the time_end value in Firestore
+        await db.collection("lottery").doc(lotteryId).update({
+          // "time_end": updatedEndTimeStr,
+          "time_end": endTime.toISOString(),
+        });
+
         return null; // Exit the function if there are no tickets
       }
       // Calculate prize value based on number of tickets
-      const prizeValue = ticketSnapshot.docs.length * 0.1;
+      const prizeValue = ticketSnapshot.docs.length * 0.01;
 
       // Select a random winner
       const winningTicket = ticketSnapshot.
@@ -54,16 +85,22 @@ exports.endLottery = functions.pubsub.schedule("every 10 minutes").
       if (winningUserSnapshot.exists) {
         const currentWalletValue =
         parseFloat(winningUserSnapshot.data().wallet || "0");
-        const updatedWalletValue = currentWalletValue + prizeValue;
+        const discountedPrize = prizeValue * 0.8;
+        const updatedWalletValue = currentWalletValue + discountedPrize;
 
         await winningUserRef.update({
-          "wallet": updatedWalletValue.toFixed(1),
+          "wallet": updatedWalletValue.toFixed(2),
         });
 
+
+        const ticketId = winningTicket.data().ticket_id;
+        const ticketNumber = winningTicket.data().ticket_number;
         await addWinners(
             winningUserSnapshot.data().name,
             winningUserSnapshot.data().image,
             prizeValue,
+            ticketId,
+            ticketNumber,
         );
       }
 
@@ -77,7 +114,7 @@ exports.endLottery = functions.pubsub.schedule("every 10 minutes").
       // Update winning ticket document
       await db.collection("tickets").doc(winningTicket.id).update({
         "status": false,
-        "prize": prizeValue.toFixed(1),
+        "prize": prizeValue.toFixed(2),
         "type": "Won",
       });
 
@@ -91,7 +128,18 @@ exports.endLottery = functions.pubsub.schedule("every 10 minutes").
           });
         }
       }
+      const usersSnapshot = await db.collection("users").get();
+      const tokens = usersSnapshot.docs.map((doc) => doc.data().fcm).
+          filter((token) => token);
+      const message = {
+        notification: {
+          title: "Lottery Results",
+          body: `The lottery has ended! Check if you've won!`,
+        },
+        tokens: tokens,
+      };
 
+      await admin.messaging().sendEachForMulticast(message);
       // Initialize a new lottery for the next round
       await initializeNewLottery();
 
@@ -121,13 +169,17 @@ async function fetchCurrentLotteryId() {
  * @param {string} name - The name of the winner.
  * @param {string} image - The image URL or path of the winner.
  * @param {number} prize - The prize amount won by the winner.
+ * @param {string} ticketId - The image URL or path of the winner.
+ * @param {number} ticketNumber - The prize amount won by the winner.
  * @return {Promise<void>} Resolves when the winner is added to Firestore.
  */
-async function addWinners(name, image, prize) {
+async function addWinners(name, image, prize, ticketId, ticketNumber) {
   await db.collection("winners").add({
     "name": name,
     "image": image,
-    "prize": prize.toFixed(1),
+    "prize": prize.toFixed(2),
+    "ticket_id": ticketId,
+    "ticket_number": ticketNumber,
     "create_at": new Date().toISOString(),
   });
 }
@@ -143,8 +195,8 @@ async function initializeNewLottery() {
 
   // Calculate end time for the new lottery
   const endTime = new Date();
-  endTime.setHours(endTime.getHours() + 1); // Add 1 hour
-
+  // endTime.setHours(endTime.getHours() + 1); // Add 1 hour
+  endTime.setMinutes(endTime.getMinutes() + 10);
   // Create a new lottery document
   const newLotteryRef = db.collection("lottery").doc();
 
@@ -153,23 +205,10 @@ async function initializeNewLottery() {
     "create_at": new Date().toISOString(),
     "status": true,
     "prize": 0,
+    "totalticket": 0,
   });
 
   batch.update(newLotteryRef, {"lottery_id": newLotteryRef.id});
 
   await batch.commit();
 }
-
-exports.hourlyFunction = functions.pubsub.
-    schedule("every 1 hours").timeZone("UTC").
-    onRun((context) => {
-      console.log("This will be run every hour!");
-      return null;
-    });
-
-exports.everyTenMinutesFunction = functions.pubsub.
-    schedule("every 10 minutes").timeZone("UTC").
-    onRun((context) => {
-      console.log("This will be run every 10 minutes!");
-      return null;
-    });

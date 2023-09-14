@@ -1,10 +1,12 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/home_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/profile_screen/profile_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/ticket_screen/ticket_screen.dart';
+import 'package:free_lottery/presentation_layer/screen/wallet_screen/wallet_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/winners_screen/winners_screen.dart';
 import 'package:get/get.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
@@ -14,12 +16,14 @@ import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';
 List<String> svgIcon = [
   'assets/icons/Home.svg',
   'assets/icons/win.svg',
+  'assets/icons/wallet.svg',
   'assets/icons/ticket.svg',
   'assets/icons/user.svg',
 ];
 List<String> titles = [
   'Home',
   'Winners',
+  'Wallet',
   'Tickets',
   'Profile',
 ];
@@ -34,6 +38,7 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _screens = [
     HomeScreen(),
     WinnersScreen(),
+    WalletScreen(),
     TicketsScreen(),
     ProfileScreen(),
   ];
@@ -68,7 +73,7 @@ class _MainScreenState extends State<MainScreen> {
               tabController.changeTabIndex(index);
             },
             items: [
-              for (int i = 0; i < 4; i++)
+              for (int i = 0; i < 5; i++)
                 BottomNavigationBarItem(
                   icon: Container(
                     child: titles[i] != ''
@@ -101,89 +106,5 @@ class TabAppController extends GetxController {
   void changeTabIndex(int index) {
     currentIndex.value = index;
     update();
-  }
-}
-
-class Screen2 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Screen 2'),
-      ),
-      body: Center(
-        child: Text('Screen 2'),
-      ),
-    );
-  }
-}
-
-class Screen3 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Screen 3'),
-      ),
-      body: Center(
-        child: Text('Screen 3'),
-      ),
-    );
-  }
-}
-
-class Screen4 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Screen 4'),
-      ),
-      body: Center(
-        child: Text('Screen 4'),
-      ),
-    );
-  }
-}
-
-class Screen5 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Screen 5'),
-      ),
-      body: Center(
-        child: Text('Screen 5'),
-      ),
-    );
-  }
-}
-
-class Screen6 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Screen 6'),
-      ),
-      body: Center(
-        child: Text('Screen 6'),
-      ),
-    );
-  }
-}
-
-class Screen7 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Screen 7'),
-      ),
-      body: Center(
-        child: Text('Screen 7'),
-      ),
-    );
   }
 }

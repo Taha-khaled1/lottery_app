@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:free_lottery/presentation_layer/utils/NotificationHandler.dart';
 import 'package:get/get.dart';
 import 'package:free_lottery/main.dart';
 import 'package:free_lottery/presentation_layer/components/nav_bar.dart';
@@ -26,6 +27,11 @@ class LoginController extends GetxController {
       final userId = credential.user!.uid;
       sharedPreferences.setString('id', userId);
       sharedPreferences.setString('email', credential.user!.email!);
+      String token = await NotificationHandler().userToken();
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .update({"fcm": token});
       var user = await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)

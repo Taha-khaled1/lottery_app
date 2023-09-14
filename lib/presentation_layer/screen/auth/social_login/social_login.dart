@@ -14,6 +14,7 @@ import 'package:free_lottery/presentation_layer/screen/auth/social_login/widget/
 import 'package:free_lottery/presentation_layer/screen/auth/social_login/widget/custom_dvider.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/social_login/widget/social_card.dart';
 import 'package:free_lottery/presentation_layer/src/get_packge.dart';
+import 'package:free_lottery/presentation_layer/utils/NotificationHandler.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -139,7 +140,7 @@ Future<UserCredential> signInWithGoogle() async {
     final userDoc = FirebaseFirestore.instance
         .collection('users')
         .doc(sharedPreferences.getString('id'));
-
+    String token = await NotificationHandler().userToken();
     usersCollection.doc(googelInfo.user!.uid).get().then((docSnapshot) {
       if (docSnapshot.exists) {
         print("---->   ${docSnapshot.data()}");
@@ -162,6 +163,7 @@ Future<UserCredential> signInWithGoogle() async {
           'phone': "000000",
           'code': "US",
           'wallet': "0",
+          "fcm": token,
         });
         Get.offAll(() => InfoAccount(
               isgoogle: true,
