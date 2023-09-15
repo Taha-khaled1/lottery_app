@@ -71,9 +71,7 @@ class WalletScreen extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  WithdrawalsList(
-                                      userId:
-                                          sharedPreferences.getString("id")!),
+                                  WithdrawalsList(islonly: true),
                                 ],
                               );
                             }

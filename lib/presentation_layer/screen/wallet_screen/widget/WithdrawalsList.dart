@@ -6,9 +6,9 @@ import 'package:get/get.dart';
 import 'TransactionWidget.dart';
 
 class WithdrawalsList extends StatefulWidget {
-  final String userId;
+  final bool islonly;
 
-  WithdrawalsList({required this.userId});
+  WithdrawalsList({required this.islonly});
 
   @override
   _WithdrawalsListState createState() => _WithdrawalsListState();
@@ -20,7 +20,7 @@ class _WithdrawalsListState extends State<WithdrawalsList> {
   @override
   void initState() {
     super.initState();
-    futureWithdrawals = _controller.fetchWithdrawals(widget.userId);
+    futureWithdrawals = _controller.fetchWithdrawals(widget.islonly);
   }
 
   @override
@@ -40,7 +40,11 @@ class _WithdrawalsListState extends State<WithdrawalsList> {
             physics: NeverScrollableScrollPhysics(),
             itemCount: withdrawals!.length,
             itemBuilder: (context, index) {
-              return TransactionWidget(transaction: withdrawals[index]);
+              return TransactionWidget(
+                transaction: withdrawals[index],
+                islonley: widget.islonly,
+                controller: _controller,
+              );
             },
           );
         } else {

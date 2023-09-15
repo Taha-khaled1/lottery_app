@@ -5,8 +5,8 @@ class UserModel {
   final String phone;
   final String userId;
   final double wallet;
-
-  UserModel({
+  final String? type;
+  UserModel( {required this.type,
     required this.code,
     required this.image,
     required this.name,
@@ -18,6 +18,7 @@ class UserModel {
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
       code: map['code'] ?? "",
+      type: map['type'] ?? "",
       image: map['image'] ?? "",
       name: map['name'] ?? "",
       phone: map['phone'] ?? "",

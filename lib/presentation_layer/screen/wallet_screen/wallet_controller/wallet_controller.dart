@@ -73,13 +73,10 @@ class WalletController extends GetxController {
     }
   }
 
-  Future<List<Withdrawal>> fetchWithdrawals(String userId) async {
+  Future<List<Withdrawal>> fetchWithdrawals(bool islonly) async {
     List<Withdrawal> withdrawals = [];
 
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection('withdrawals')
-        .where('user_id', isEqualTo: userId)
-        .get();
+    QuerySnapshot querySnapshot = await returnWithdrawals(islonly);
 
     for (QueryDocumentSnapshot docSnapshot in querySnapshot.docs) {
       Withdrawal userWithdrawal = Withdrawal.fromMap(
@@ -89,4 +86,44 @@ class WalletController extends GetxController {
 
     return withdrawals;
   }
+
+  Future<QuerySnapshot> returnWithdrawals(bool islonly) async {
+    if (islonly) {
+      return await FirebaseFirestore.instance
+          .collection('withdrawals')
+          .where('user_id', isEqualTo: sharedPreferences.getString("id"))
+          .get();
+    } else {
+      return await FirebaseFirestore.instance.collection('withdrawals').get();
+    }
+  }
+
+  Future<void> updateWithdrawalStatus(
+      String withdrawalId, WithdrawalStatus status) async {
+    final firestore = FirebaseFirestore.instance;
+
+    String statusString;
+    switch (status) {
+      case WithdrawalStatus.paid:
+        statusString = "completed";
+        break;
+      case WithdrawalStatus.failed:
+        statusString = "failed";
+        break;
+    }
+
+    try {
+      await firestore
+          .collection('withdrawals')
+          .doc(withdrawalId)
+          .update({'status': statusString});
+      showToast("Status updated successfully!");
+      print("Status updated successfully!");
+    } catch (e) {
+      showToast("Error updating status!");
+      print('Error updating status: $e');
+    }
+  }
 }
+
+enum WithdrawalStatus { paid, failed }

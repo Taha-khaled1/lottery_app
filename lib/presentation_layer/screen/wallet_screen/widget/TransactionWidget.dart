@@ -1,11 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:free_lottery/data_layer/models/WithdrawalModel.dart';
+import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
+import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
+import 'package:free_lottery/presentation_layer/screen/wallet_screen/wallet_controller/wallet_controller.dart';
+import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 
 class TransactionWidget extends StatelessWidget {
   final Withdrawal transaction;
-
-  TransactionWidget({required this.transaction});
+  final bool islonley;
+  final WalletController controller;
+  TransactionWidget({
+    required this.transaction,
+    required this.islonley,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -53,32 +62,70 @@ class TransactionWidget extends StatelessWidget {
           ),
         ],
       ),
-      child: ListTile(
-        contentPadding: EdgeInsets.all(16.0),
-        leading: Icon(
-          getStatusIcon(transaction.status),
-          color: Colors.white,
-          size: 40,
-        ),
-        title: Text(
-          'ID: ${transaction.userId}',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
+      child: Column(
+        children: [
+          ListTile(
+            contentPadding: EdgeInsets.all(16.0),
+            leading: Icon(
+              getStatusIcon(transaction.status),
+              color: Colors.white,
+              size: 40,
+            ),
+            title: Text(
+              'ID: ${transaction.userId}',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 8),
+                Text('Money: \$${transaction.money}',
+                    style: TextStyle(color: Colors.white)),
+                Text('PayPal Email: ${transaction.paypalEmail}',
+                    style: TextStyle(color: Colors.white)),
+                Text('Created at: ${transaction.createdAt}',
+                    style: TextStyle(color: Colors.white)),
+              ],
+            ),
           ),
-        ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: 8),
-            Text('Money: \$${transaction.money}',
-                style: TextStyle(color: Colors.white)),
-            Text('PayPal Email: ${transaction.paypalEmail}',
-                style: TextStyle(color: Colors.white)),
-            Text('Created at: ${transaction.createdAt}',
-                style: TextStyle(color: Colors.white)),
-          ],
-        ),
+          InfoWidget(
+            builder: (context, deviceInfo) {
+              return Row(
+                children: [
+                  CustomButton(
+                    width: deviceInfo.localWidth * 0.45,
+                    height: 45,
+                    color: ColorManager.error,
+                    text: "refused",
+                    press: () {
+                      controller.updateWithdrawalStatus(
+                        transaction.id.toString(),
+                        WithdrawalStatus.failed,
+                      ); // to mark as failed
+                    },
+                    rectangel: 10,
+                  ),
+                  CustomButton(
+                    width: deviceInfo.localWidth * 0.45,
+                    height: 45,
+                    color: ColorManager.kPrimary,
+                    text: "paid",
+                    press: () {
+                      controller.updateWithdrawalStatus(
+                        transaction.id.toString(),
+                        WithdrawalStatus.paid,
+                      ); // to mark as paid},
+                    },
+                    rectangel: 10,
+                  ),
+                ],
+              );
+            },
+          )
+        ],
       ),
     );
   }

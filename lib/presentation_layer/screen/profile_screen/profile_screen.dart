@@ -8,6 +8,7 @@ import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';
 import 'package:free_lottery/presentation_layer/screen/Pomo_Setting_screen/Pomo_Setting_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/info_account_screen/widget/custom_circle_Image.dart';
 import 'package:free_lottery/presentation_layer/screen/before_login_screen/before_login_screen.dart';
+import 'package:free_lottery/presentation_layer/screen/dashboard/login_dashboard.dart';
 import 'package:free_lottery/presentation_layer/screen/edit_screen/edit_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/notification_screen/notification_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/profile_screen/widget/profie_showBottomSheet.dart';
@@ -110,6 +111,14 @@ class ProfileScreen extends StatelessWidget {
                         titel: 'Terms and Conditions',
                         image: 'assets/icons/Security.svg',
                       ),
+                      if (userApp?.type == "admin")
+                        CustomListtile(
+                          onTap: () {
+                            Get.to(() => LoginDashboardScreen());
+                          },
+                          titel: 'Dashboard',
+                          image: 'assets/icons/Profile.svg',
+                        ),
                       CustomListtile(
                         onTap: () {
                           customLogoutShowBottomSheet(context);
