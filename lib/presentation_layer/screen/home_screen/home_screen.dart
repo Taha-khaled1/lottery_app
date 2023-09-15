@@ -63,18 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           HeaderText(title: 'Recent Winners'),
                           AnimatedWinnersList(homeController: homeController),
                           SizedBox(height: 10),
-                          GestureDetector(
-                              onTap: () async {
-                                final firestore = FirebaseFirestore.instance;
-
-                                final doc = await firestore
-                                    .collection('setting')
-                                    .doc('setting')
-                                    .get();
-
-                                print(int.parse(doc.data()?['percentage']));
-                              },
-                              child: HeaderText(title: 'Time Remaining')),
+                          HeaderText(title: 'Time Remaining'),
                           StreamBuilder<int>(
                             stream: homeController.stopWatchTimer!.rawTime,
                             initialData:
