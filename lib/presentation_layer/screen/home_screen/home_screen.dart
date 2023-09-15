@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
@@ -62,7 +63,18 @@ class _HomeScreenState extends State<HomeScreen> {
                           HeaderText(title: 'Recent Winners'),
                           AnimatedWinnersList(homeController: homeController),
                           SizedBox(height: 10),
-                          HeaderText(title: 'Time Remaining'),
+                          GestureDetector(
+                              onTap: () async {
+                                final firestore = FirebaseFirestore.instance;
+
+                                final doc = await firestore
+                                    .collection('setting')
+                                    .doc('setting')
+                                    .get();
+
+                                print(int.parse(doc.data()?['percentage']));
+                              },
+                              child: HeaderText(title: 'Time Remaining')),
                           StreamBuilder<int>(
                             stream: homeController.stopWatchTimer!.rawTime,
                             initialData:
@@ -231,9 +243,11 @@ class _ButtonPressLimitState extends State<ButtonPressLimit> {
 
     // Remove timestamps older than 4 hours
     pressTimestamps.removeWhere(
-        (timestamp) => currentTime.difference(timestamp) >= Duration(hours: 4));
+      (timestamp) => currentTime.difference(timestamp) >= Duration(hours: 4),
+    );
 
-    if (pressTimestamps.length <= 10) {
+    if (pressTimestamps.length <=
+        int.parse(sharedPreferences.getString('num_ads')!)) {
       pressTimestamps.add(currentTime);
       _storeTimestamps();
 

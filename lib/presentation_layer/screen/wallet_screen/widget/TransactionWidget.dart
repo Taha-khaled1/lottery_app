@@ -91,40 +91,41 @@ class TransactionWidget extends StatelessWidget {
               ],
             ),
           ),
-          InfoWidget(
-            builder: (context, deviceInfo) {
-              return Row(
-                children: [
-                  CustomButton(
-                    width: deviceInfo.localWidth * 0.45,
-                    height: 45,
-                    color: ColorManager.error,
-                    text: "refused",
-                    press: () {
-                      controller.updateWithdrawalStatus(
-                        transaction.id.toString(),
-                        WithdrawalStatus.failed,
-                      ); // to mark as failed
-                    },
-                    rectangel: 10,
-                  ),
-                  CustomButton(
-                    width: deviceInfo.localWidth * 0.45,
-                    height: 45,
-                    color: ColorManager.kPrimary,
-                    text: "paid",
-                    press: () {
-                      controller.updateWithdrawalStatus(
-                        transaction.id.toString(),
-                        WithdrawalStatus.paid,
-                      ); // to mark as paid},
-                    },
-                    rectangel: 10,
-                  ),
-                ],
-              );
-            },
-          )
+          if (!islonley)
+            InfoWidget(
+              builder: (context, deviceInfo) {
+                return Row(
+                  children: [
+                    CustomButton(
+                      width: deviceInfo.localWidth * 0.45,
+                      height: 45,
+                      color: ColorManager.error,
+                      text: "refused",
+                      press: () {
+                        controller.updateWithdrawalStatus(
+                          transaction.id.toString(),
+                          WithdrawalStatus.failed,
+                        ); // to mark as failed
+                      },
+                      rectangel: 10,
+                    ),
+                    CustomButton(
+                      width: deviceInfo.localWidth * 0.45,
+                      height: 45,
+                      color: ColorManager.kPrimary,
+                      text: "paid",
+                      press: () {
+                        controller.updateWithdrawalStatus(
+                          transaction.id.toString(),
+                          WithdrawalStatus.paid,
+                        ); // to mark as paid},
+                      },
+                      rectangel: 10,
+                    ),
+                  ],
+                );
+              },
+            )
         ],
       ),
     );

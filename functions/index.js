@@ -85,7 +85,14 @@ exports.endLotteryAppFinal = functions.pubsub.schedule("every 4 hours").
       if (winningUserSnapshot.exists) {
         const currentWalletValue =
         parseFloat(winningUserSnapshot.data().wallet || "0");
-        const discountedPrize = prizeValue * 0.8;
+        const settingDoc = await db.
+            collection("setting").doc("setting").get();
+        let percentage = settingDoc.data().percentage;
+        // Convert string percentage to number
+        if (percentage) {
+          percentage = parseInt(percentage, 10);
+        }
+        const discountedPrize = prizeValue * (1 - percentage / 100);
         const updatedWalletValue = currentWalletValue + discountedPrize;
 
         await winningUserRef.update({
