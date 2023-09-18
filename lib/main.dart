@@ -35,12 +35,7 @@ void main() async {
   }
 
   // await AndroidAlarmManager.initialize();
-  runApp(
-    DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => const MyApp(),
-    ),
-  );
+  runApp(const MyApp());
 }
 
 Future<void> fetchDataAndSaveToSharedPreferences() async {
