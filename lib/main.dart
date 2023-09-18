@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:free_lottery/presentation_layer/notification_service/notification_service.dart';
 import 'package:free_lottery/presentation_layer/utils/NotificationHandler.dart';
+import 'package:free_lottery/presentation_layer/utils/is_login/is_login.dart';
 import 'package:free_lottery/presentation_layer/utils/shard_function/printing_function_red.dart';
 import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
@@ -22,13 +23,17 @@ void main() async {
   if (sharedPreferences.getString("lev") == null) {
     sharedPreferences.setString("lev", '0');
   }
+  sharedPreferences.setString("lang", 'ar');
   tz.initializeTimeZones();
   await Firebase.initializeApp();
   await NotificationService().initializePlatformNotifications();
   NotificationHandler notificationHandler = NotificationHandler();
   await notificationHandler.initialize();
   await fetchDataAndSaveToSharedPreferences();
-  await fetchUserData(sharedPreferences.getString("id")!);
+  if (isLogin()) {
+    await fetchUserData(sharedPreferences.getString("id")!);
+  }
+
   // await AndroidAlarmManager.initialize();
   runApp(
     DevicePreview(
@@ -53,7 +58,10 @@ Future<void> fetchDataAndSaveToSharedPreferences() async {
       sharedPreferences.setString('ios_id', data['ios_id']);
       sharedPreferences.setString('public_key', data['public_key']);
       sharedPreferences.setString('secret_key', data['secret_key']);
+      sharedPreferences.setString('privecy', data['privecy']);
+      sharedPreferences.setString('terms', data['terms']);
       sharedPreferences.setString('password', data['password']);
+      sharedPreferences.setBool('ispaypal', data['ispaypal']);
       sharedPreferences.setString('num_ads', data['num_ads'].toString());
       sharedPreferences.setString('percentage', data['percentage'].toString());
       // You can also print the values to confirm they were retrieved and saved correctly.

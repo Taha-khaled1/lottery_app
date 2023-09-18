@@ -106,9 +106,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       );
                                       return;
                                     }
+                                    bool isPaypal =
+                                        sharedPreferences.getBool('ispaypal')!;
                                     Get.to(
                                       () => PaypalCheckout(
-                                        sandboxMode: true,
+                                        sandboxMode: isPaypal,
                                         clientId: sharedPreferences
                                             .getString("client_id")!,
                                         secretKey: sharedPreferences
@@ -168,8 +170,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   },
                                 ),
                                 ButtonPressLimit(
-                                    width: deviceInfo.localWidth * 0.45,
-                                    admobe: _admobe),
+                                  width: deviceInfo.localWidth * 0.45,
+                                  admobe: _admobe,
+                                ),
                               ],
                             ),
                           ),

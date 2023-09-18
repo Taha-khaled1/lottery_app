@@ -19,6 +19,10 @@ import 'package:free_lottery/presentation_layer/src/get_packge.dart';
 import 'package:free_lottery/presentation_layer/utils/is_login/is_login.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 import 'package:free_lottery/presentation_layer/utils/shard_function/image_checker.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
+
+import '../../resources/strings_manager.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -125,6 +129,40 @@ class ProfileScreen extends StatelessWidget {
                         },
                         titel: 'Logout',
                         image: 'assets/icons/Logout.svg',
+                      ),
+                      CustomListtile(
+                        onTap: () {
+                          QuickAlert.show(
+                            showCancelBtn: true,
+                            context: context,
+                            type: QuickAlertType.warning,
+                            text: AppStrings.deleteAccountMessage.tr,
+                            title: AppStrings.deleteAccountConfirmation.tr,
+                            cancelBtnText: AppStrings.cancel.tr,
+                            confirmBtnText: AppStrings.yes.tr,
+                            confirmBtnColor: ColorManager.error,
+                            onCancelBtnTap: () {
+                              Get.back();
+                            },
+                            onConfirmBtnTap: () {
+                              QuickAlert.show(
+                                context: context,
+                                type: QuickAlertType.warning,
+                                text: AppStrings.deleteAccountWarning.tr,
+                                title: AppStrings.status.tr,
+                                onConfirmBtnTap: () {
+                                  Get.back();
+                                  Get.back();
+                                },
+                              );
+                            },
+                          );
+                        },
+                        titel: AppStrings.deleteAccount.tr,
+                        widget: Icon(
+                          Icons.dangerous_outlined,
+                          color: Colors.redAccent,
+                        ),
                       ),
                     ],
                   ),
