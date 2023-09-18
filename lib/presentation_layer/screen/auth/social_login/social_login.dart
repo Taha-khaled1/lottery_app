@@ -14,6 +14,7 @@ import 'package:free_lottery/presentation_layer/screen/auth/social_login/widget/
 import 'package:free_lottery/presentation_layer/screen/auth/social_login/widget/custom_dvider.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/social_login/widget/social_card.dart';
 import 'package:free_lottery/presentation_layer/src/get_packge.dart';
+import 'package:free_lottery/presentation_layer/src/show_toast.dart';
 import 'package:free_lottery/presentation_layer/utils/NotificationHandler.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -47,6 +48,9 @@ class SocialScreen extends StatelessWidget {
                 SocialCard(
                   image: 'assets/icons/facebook.svg',
                   title: 'Continue with Facebook',
+                  onTap: () {
+                    showToast("This feature has not been added yet");
+                  },
                 ),
                 SizedBox(height: 15),
                 SocialCard(
@@ -55,10 +59,10 @@ class SocialScreen extends StatelessWidget {
                   onTap: signInWithGoogle,
                 ),
                 SizedBox(height: 15),
-                SocialCard(
-                  image: 'assets/icons/apple.svg',
-                  title: 'Continue with Apple',
-                ),
+                // SocialCard(
+                //   image: 'assets/icons/apple.svg',
+                //   title: 'Continue with Apple',
+                // ),
               ],
             ),
           ),

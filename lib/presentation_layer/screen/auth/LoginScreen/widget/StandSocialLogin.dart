@@ -17,7 +17,8 @@ class StandSocialLogin extends StatelessWidget {
           image: 'assets/icons/google.svg',
           onTap: signInWithGoogle,
         ),
-        CircleSocialButton(image: 'assets/icons/apple.svg'),
+
+        //CircleSocialButton(image: 'assets/icons/apple.svg'),
       ],
     );
   }
