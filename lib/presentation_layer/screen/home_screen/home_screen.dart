@@ -1,8 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
-import 'package:free_lottery/presentation_layer/components/nav_bar.dart';
+
 import 'package:free_lottery/presentation_layer/components/show_dialog.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/widget/AnimatedWinnersList%20.dart';
@@ -17,7 +16,6 @@ import 'package:get/get.dart';
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 import '../../../main.dart';
 import 'home_controller/home_controller.dart';
-import 'package:flutter_paypal_checkout/flutter_paypal_checkout.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -91,84 +89,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 5),
                             child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                CustomButton(
-                                  width: deviceInfo.localWidth * 0.45,
-                                  height: 55,
-                                  color: ColorManager.black,
-                                  text: "buying ticket",
-                                  fontSize: 18,
-                                  press: () {
-                                    if (!isLogin()) {
-                                      showDilog(
-                                        context,
-                                        "You must be logged in to receive a ticket",
-                                      );
-                                      return;
-                                    }
-                                    bool isPaypal =
-                                        sharedPreferences.getBool('ispaypal')!;
-                                    Get.to(
-                                      () => PaypalCheckout(
-                                        sandboxMode: isPaypal,
-                                        clientId: sharedPreferences
-                                            .getString("client_id")!,
-                                        secretKey: sharedPreferences
-                                            .getString("secret_key")!,
-                                        returnURL: "success.snippetcoder.com",
-                                        cancelURL: "cancel.snippetcoder.com",
-                                        transactions: const [
-                                          {
-                                            "amount": {
-                                              "total": '0.01',
-                                              "currency": "USD",
-                                              "details": {
-                                                "subtotal": '0.01',
-                                                "shipping": '0',
-                                                "shipping_discount": 0
-                                              }
-                                            },
-                                            "description":
-                                                "The payment transaction description.",
-                                            "item_list": {
-                                              "items": [
-                                                {
-                                                  "name": "Ticket",
-                                                  "quantity": 1,
-                                                  "price": '0.01',
-                                                  "currency": "USD"
-                                                }
-                                              ],
-                                            }
-                                          }
-                                        ],
-                                        note:
-                                            "Contact us for any questions on your order.",
-                                        onSuccess: (Map params) async {
-                                          // Get.back();
-                                          Get.to(() => MainScreen());
-
-                                          Get.back();
-                                          printRedColor("onSuccess: $params");
-                                          homeController.createTicketForUser();
-                                          await Future.delayed(
-                                              Duration(milliseconds: 500));
-                                          showDilog(
-                                              context, "you got a ticket");
-                                        },
-                                        onError: (error) {
-                                          printRedColor("onerror: $error");
-                                          printRedColor(
-                                              "==================================================================================");
-                                          // Navigator.pop(context);
-                                        },
-                                        onCancel: () {
-                                          printRedColor('cancelled:');
-                                        },
-                                      ),
-                                    );
-                                  },
-                                ),
                                 ButtonPressLimit(
                                   width: deviceInfo.localWidth * 0.45,
                                   admobe: _admobe,

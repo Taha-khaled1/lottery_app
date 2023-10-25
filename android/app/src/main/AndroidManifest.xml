@@ -5,13 +5,13 @@
     <!-- For apps with targetSDK=31 (Android 12) -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <application
-        android:label="Free lottery"
+        android:label="LottoWin"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
 
       <meta-data
         android:name="com.google.android.gms.ads.APPLICATION_ID"
-        android:value="ca-app-pub-2352204050188407~5480627317"/>
+        android:value="ca-app-pub-8925003566069657~2729102162"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"
