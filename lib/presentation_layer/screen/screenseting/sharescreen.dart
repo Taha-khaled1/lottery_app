@@ -52,7 +52,7 @@ class ShareApp extends StatelessWidget {
                         final box = context.findRenderObject() as RenderBox?;
 
                         await Share.share(
-                          'datating.app',
+                          'https://play.google.com/store/apps/details?id=com.lottorealm.freewin',
                           sharePositionOrigin:
                               box!.localToGlobal(Offset.zero) & box.size,
                         );

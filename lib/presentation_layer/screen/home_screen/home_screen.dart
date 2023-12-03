@@ -113,6 +113,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
+List<DateTime> pressTimestamps = [];
+storeTimestamps() async {
+  List<String> toStore =
+      pressTimestamps.map((dt) => dt.toIso8601String()).toList();
+  sharedPreferences.setStringList('timestamps', toStore);
+}
+
 class ButtonPressLimit extends StatefulWidget {
   final double width;
   final AdmobeController admobe;
@@ -124,8 +131,6 @@ class ButtonPressLimit extends StatefulWidget {
 }
 
 class _ButtonPressLimitState extends State<ButtonPressLimit> {
-  List<DateTime> pressTimestamps = [];
-
   @override
   void initState() {
     super.initState();
@@ -138,12 +143,6 @@ class _ButtonPressLimitState extends State<ButtonPressLimit> {
     setState(() {
       pressTimestamps = storedTimestamps.map((s) => DateTime.parse(s)).toList();
     });
-  }
-
-  _storeTimestamps() async {
-    List<String> toStore =
-        pressTimestamps.map((dt) => dt.toIso8601String()).toList();
-    sharedPreferences.setStringList('timestamps', toStore);
   }
 
   _handleButtonPress() {
@@ -163,9 +162,6 @@ class _ButtonPressLimitState extends State<ButtonPressLimit> {
 
     if (pressTimestamps.length <=
         int.parse(sharedPreferences.getString('num_ads')!)) {
-      pressTimestamps.add(currentTime);
-      _storeTimestamps();
-
       (printRedColor("mmms"));
       if (!isLogin()) {
         showDilog(
@@ -174,6 +170,8 @@ class _ButtonPressLimitState extends State<ButtonPressLimit> {
         );
         return;
       }
+      pressTimestamps.add(currentTime);
+      storeTimestamps();
       widget.admobe.showRewardedAd();
     } else {
       final firstTimestamp = pressTimestamps.first;
@@ -182,7 +180,7 @@ class _ButtonPressLimitState extends State<ButtonPressLimit> {
       if (durationSinceFirstPress >= Duration(hours: 4)) {
         pressTimestamps.removeAt(0);
         pressTimestamps.add(currentTime);
-        _storeTimestamps();
+        storeTimestamps();
         (printRedColor("mmms"));
 
         widget.admobe.showRewardedAd();

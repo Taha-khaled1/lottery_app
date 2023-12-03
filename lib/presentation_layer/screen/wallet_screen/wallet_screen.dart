@@ -3,12 +3,9 @@ import 'package:free_lottery/main.dart';
 import 'package:free_lottery/presentation_layer/screen/before_login_screen/before_login_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/wallet_screen/TopSection.dart';
 import 'package:free_lottery/presentation_layer/screen/wallet_screen/wallet_controller/wallet_controller.dart';
-import 'package:free_lottery/presentation_layer/screen/wallet_screen/widget/TransactionWidget.dart';
 import 'package:free_lottery/presentation_layer/screen/wallet_screen/widget/WithdrawalsList.dart';
 import 'package:free_lottery/presentation_layer/utils/is_login/is_login.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:free_lottery/data_layer/models/task_model.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/font_manager.dart';
@@ -23,7 +20,7 @@ class WalletScreen extends StatelessWidget {
     return isLogin()
         ? Scaffold(
             backgroundColor: ColorManager.background,
-            appBar: appbarProfile(title: 'Wallet', isBack: false),
+            appBar: appbarProfile(title: 'your Prize', isBack: false),
             body: InfoWidget(
               builder: (context, deviceInfo) {
                 return SingleChildScrollView(
@@ -45,8 +42,6 @@ class WalletScreen extends StatelessWidget {
 
                               // if we got our data
                             } else if (snapshot.hasData) {
-                              final data = snapshot.data;
-                              // int totalTasks = data!.length;
                               return Column(
                                 children: [
                                   TopSection(
@@ -62,7 +57,7 @@ class WalletScreen extends StatelessWidget {
                                     child: Align(
                                       alignment: Alignment.centerLeft,
                                       child: Text(
-                                        "financial transactions",
+                                        "Your operations",
                                         style: MangeStyles().getRegularStyle(
                                           color: ColorManager.black,
                                           fontSize: FontSize.s20,

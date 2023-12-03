@@ -15,7 +15,7 @@ class WithdrawDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     final WalletController _controller = Get.find();
     return AlertDialog(
-      title: Text("The minimum withdrawal value is \$10"),
+      title: Text("The minimum Prize value is \$10"),
       content: Form(
         key: _controller.formKey,
         child: Column(
@@ -24,7 +24,7 @@ class WithdrawDialog extends StatelessWidget {
             Align(
               alignment: Alignment.topLeft,
               child: Text(
-                "Enter value withdraw",
+                "Enter value",
                 style: MangeStyles().getBoldStyle(
                   color: ColorManager.black,
                   fontSize: FontSize.s16,
@@ -39,7 +39,7 @@ class WithdrawDialog extends StatelessWidget {
               onsaved: (value) {
                 _controller.money = double.parse(value.toString());
               },
-              titel: "Enter the value you want to withdraw",
+              titel: "Enter the Prize you want to get",
               width: 400,
               height: 60,
             ),
@@ -82,7 +82,7 @@ class WithdrawDialog extends StatelessWidget {
           width: 110,
           height: 45,
           color: ColorManager.kPrimary,
-          text: "Withdraw",
+          text: "Get Prize",
           fontSize: 16,
           press: () async {
             if (_controller.formKey.currentState!.validate()) {

@@ -64,7 +64,7 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(height: 30),
                       CustomListtile(
                         onTap: () {
-                          Get.off(() => EditScreen());
+                          Get.to(() => EditScreen());
                         },
                         titel: 'Edit Profile',
                         image: 'assets/icons/Profile.svg',
@@ -80,14 +80,14 @@ class ProfileScreen extends StatelessWidget {
                         onTap: () {
                           Get.to(() => PomoSettingScreen());
                         },
-                        titel: 'Pomo Settings',
+                        titel: 'app Settings',
                         image: 'assets/icons/star.svg',
                       ),
-                      CustomListtile(
-                        onTap: () {},
-                        titel: 'Help',
-                        image: 'assets/icons/Help.svg',
-                      ),
+                      // CustomListtile(
+                      //   onTap: () {},
+                      //   titel: 'Help',
+                      //   image: 'assets/icons/Help.svg',
+                      // ),
                       CustomListtile(
                         onTap: () {
                           Get.to(() => ShareApp());

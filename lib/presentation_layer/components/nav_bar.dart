@@ -23,7 +23,7 @@ List<String> svgIcon = [
 List<String> titles = [
   'Home',
   'Winners',
-  'Wallet',
+  'Prize',
   'Tickets',
   'Profile',
 ];

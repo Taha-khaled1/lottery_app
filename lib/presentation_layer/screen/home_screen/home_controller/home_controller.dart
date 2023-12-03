@@ -56,9 +56,9 @@ class HomeController extends GetxController {
     final currentTime = DateTime.now();
     final timeDifference = lottery.timeEnd.difference(currentTime);
 
-    final hours = timeDifference.inHours;
-    final minutes = timeDifference.inMinutes % 60;
-    final seconds = timeDifference.inSeconds % 60;
+    // final hours = timeDifference.inHours;
+    // final minutes = timeDifference.inMinutes % 60;
+    // final seconds = timeDifference.inSeconds % 60;
 
     return timeDifference.inSeconds.toInt() + 20;
   }

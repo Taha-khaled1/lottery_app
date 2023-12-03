@@ -83,7 +83,7 @@ customLogoutShowBottomSheet(BuildContext context) {
                         await sharedPreferences.remove('image');
                         Get.offAll(() => LoginScreen());
 
-                        customRatingShowBottomSheet(context);
+                        // customRatingShowBottomSheet(context);
                       },
                     ),
                   ],

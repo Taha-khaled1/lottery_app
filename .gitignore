@@ -6,7 +6,7 @@
 .DS_Store
 .atom/
 .buildlog/
-.history
+# .history
 .svn/
 migrate_working_dir/
 
@@ -33,10 +33,10 @@ migrate_working_dir/
 /build/
 
 # Symbolication related
-app.*.symbols
+# app.*.symbols
 
 # Obfuscation related
-app.*.map.json
+# app.*.map.json
 
 # Android Studio will place build artifacts here
 /android/app/debug

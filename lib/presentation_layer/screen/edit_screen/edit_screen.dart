@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:free_lottery/presentation_layer/components/nav_bar.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -40,7 +41,7 @@ class _EditScreenState extends State<EditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorManager.background,
-      appBar: appbar(title: 'Edit Profile'),
+      appBar: appbar(title: 'Edit Profile', isBack: true),
       body: InfoWidget(
         builder: (context, deviceInfo) {
           return Align(
@@ -173,7 +174,7 @@ class _EditScreenState extends State<EditScreen> {
                         code,
                       );
                       showToast('The data has been updated successfully.');
-                      Get.off(() => ProfileScreen());
+                      Get.off(() => MainScreen());
                     },
                   ),
                 ],

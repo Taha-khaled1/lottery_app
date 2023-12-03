@@ -19,9 +19,9 @@ admin.initializeApp();
 // admin.initializeApp();
 
 const db = admin.firestore();
-// every 4 hours
+// every 48 hours
 // every 10 minutes
-exports.endLotteryAppFinal = functions.pubsub.schedule("every 4 hours").
+exports.endLotteryAppFinal = functions.pubsub.schedule("every 48 hours").
     timeZone("UTC").onRun(async (context) => {
       const lotteryId = await fetchCurrentLotteryId();
 
@@ -60,7 +60,7 @@ exports.endLotteryAppFinal = functions.pubsub.schedule("every 4 hours").
         const endTime = new Date();
         // endTime.setHours(endTime.getHours() + 1); // Add 1 hour
         // endTime.setMinutes(endTime.getMinutes() + 10);
-        endTime.setHours(endTime.getHours() + 4);
+        endTime.setHours(endTime.getHours() + 48);
         // Update the time_end value in Firestore
         await db.collection("lottery").doc(lotteryId).update({
           // "time_end": updatedEndTimeStr,
@@ -204,7 +204,7 @@ async function initializeNewLottery() {
   const endTime = new Date();
   // endTime.setHours(endTime.getHours() + 1); // Add 1 hour
   // endTime.setMinutes(endTime.getMinutes() + 10);
-  endTime.setHours(endTime.getHours() + 4);
+  endTime.setHours(endTime.getHours() + 48);
   // Create a new lottery document
   const newLotteryRef = db.collection("lottery").doc();
 

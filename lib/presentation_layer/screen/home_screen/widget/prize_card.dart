@@ -101,38 +101,38 @@ class _PrizeWidgetState extends State<PrizeWidget>
                     );
                   },
                 ),
-                AnimatedTextKit(
-                  animatedTexts: [
-                    TyperAnimatedText(
-                      'Buy a ticket to increase the prize!',
-                      textStyle: TextStyle(
-                        fontSize: 16.0,
-                        fontStyle: FontStyle.italic,
-                      ),
-                      speed: Duration(milliseconds: 100),
-                    ),
-                  ],
-                  totalRepeatCount: 8,
-                  pause: Duration(milliseconds: 1000),
-                  displayFullTextOnTap: true,
-                  stopPauseOnTap: true,
-                ),
-                AnimatedTextKit(
-                  animatedTexts: [
-                    TyperAnimatedText(
-                      'Every ticket purchase increases the prize by 0.01!',
-                      textStyle: TextStyle(
-                        fontSize: 16.0,
-                        fontStyle: FontStyle.italic,
-                      ),
-                      speed: Duration(milliseconds: 100),
-                    ),
-                  ],
-                  totalRepeatCount: 8,
-                  pause: Duration(milliseconds: 1000),
-                  displayFullTextOnTap: true,
-                  stopPauseOnTap: true,
-                ),
+                // AnimatedTextKit(
+                //   animatedTexts: [
+                //     TyperAnimatedText(
+                //       'Buy a ticket to increase the prize!',
+                //       textStyle: TextStyle(
+                //         fontSize: 16.0,
+                //         fontStyle: FontStyle.italic,
+                //       ),
+                //       speed: Duration(milliseconds: 100),
+                //     ),
+                //   ],
+                //   totalRepeatCount: 8,
+                //   pause: Duration(milliseconds: 1000),
+                //   displayFullTextOnTap: true,
+                //   stopPauseOnTap: true,
+                // ),
+                // AnimatedTextKit(
+                //   animatedTexts: [
+                //     TyperAnimatedText(
+                //       'Every ticket purchase increases the prize by 0.01!',
+                //       textStyle: TextStyle(
+                //         fontSize: 16.0,
+                //         fontStyle: FontStyle.italic,
+                //       ),
+                //       speed: Duration(milliseconds: 100),
+                //     ),
+                //   ],
+                //   totalRepeatCount: 8,
+                //   pause: Duration(milliseconds: 1000),
+                //   displayFullTextOnTap: true,
+                //   stopPauseOnTap: true,
+                // ),
               ],
             ),
             // Lottie.asset("assets/json/mo.json", fit: BoxFit.cover, width: 500),

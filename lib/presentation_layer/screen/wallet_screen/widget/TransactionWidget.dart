@@ -82,7 +82,7 @@ class TransactionWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 8),
-                Text('Money: \$${transaction.money}',
+                Text('Prize: \$${transaction.money}',
                     style: TextStyle(color: Colors.white)),
                 Text('PayPal Email: ${transaction.paypalEmail}',
                     style: TextStyle(color: Colors.white)),

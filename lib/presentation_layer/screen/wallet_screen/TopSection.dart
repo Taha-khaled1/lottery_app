@@ -53,7 +53,7 @@ class TopSection extends StatelessWidget {
                       height: 10,
                     ),
                     Text(
-                      "Wallet",
+                      "your Prize",
                       style: MangeStyles().getBoldStyle(
                         color: ColorManager.white,
                         fontSize: FontSize.s25,
@@ -97,7 +97,7 @@ class TopSection extends StatelessWidget {
                             left: 47,
                             top: 35,
                             child: Text(
-                              "withdrawal request",
+                              "Get your prize",
                               style: MangeStyles().getBoldStyle(
                                 color: ColorManager.white,
                                 fontSize: FontSize.s18,
