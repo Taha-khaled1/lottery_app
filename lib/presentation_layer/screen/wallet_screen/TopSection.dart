@@ -94,7 +94,7 @@ class TopSection extends StatelessWidget {
                           ),
                           Positioned(
                             right: 0,
-                            left: 47,
+                            left: 64,
                             top: 35,
                             child: Text(
                               "Get your prize",

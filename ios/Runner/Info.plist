@@ -54,5 +54,8 @@
 			<key>NSAllowsArbitraryLoads</key>
 			<true/>
 		</dict>
+
+		<key>GADApplicationIdentifier</key>
+		<string>ca-app-pub-8925003566069657~5564645260</string>
 	</dict>
 </plist>
