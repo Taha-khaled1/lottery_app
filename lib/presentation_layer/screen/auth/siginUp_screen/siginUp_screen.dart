@@ -57,7 +57,7 @@ class SiginUpScreen extends StatelessWidget {
                           return validInput(p0.toString(), 3, 100, 'email');
                         },
                         onsaved: (p0) {
-                          siginUpController.emailAddress = p0.toString();
+                          return siginUpController.emailAddress = p0.toString();
                         },
                         titel: 'Email',
                         width: deviceInfo.localWidth * 0.8,
@@ -70,7 +70,7 @@ class SiginUpScreen extends StatelessWidget {
                           return validInput(p0.toString(), 3, 100, 'password');
                         },
                         onsaved: (p0) {
-                          siginUpController.password = p0.toString();
+                          return siginUpController.password = p0.toString();
                         },
                         titel: 'Password',
                         width: deviceInfo.localWidth * 0.8,

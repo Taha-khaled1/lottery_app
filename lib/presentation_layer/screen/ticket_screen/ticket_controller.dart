@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:free_lottery/data_layer/models/ticke_model.dart';
-import 'package:free_lottery/data_layer/models/user_model.dart';
-import 'package:free_lottery/main.dart';
 import 'package:get/get.dart';
 
 class TicketController extends GetxController {

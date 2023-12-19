@@ -63,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                           return validInput(p0.toString(), 3, 100, 'email');
                         },
                         onsaved: (p0) {
-                          loginController.emailAddress = p0.toString();
+                          return loginController.emailAddress = p0.toString();
                         },
                         onChanged: (p0) {
                           loginController.emailAddress = p0.toString();
@@ -84,7 +84,7 @@ class LoginScreen extends StatelessWidget {
                           );
                         },
                         onsaved: (p0) {
-                          loginController.password = p0.toString();
+                          return loginController.password = p0.toString();
                         },
                         titel: 'Password',
                         width: deviceInfo.localWidth * 0.8,

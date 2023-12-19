@@ -19,7 +19,7 @@ class NotificationScreen extends StatelessWidget {
       appBar: appbarProfile(title: 'Notifications'),
       body: InfoWidget(
         builder: (context, deviceInfo) {
-          return notfModelList == null || notfModelList.isEmpty
+          return notfModelList.isEmpty
               ? Center(
                   child: Align(
                     alignment: Alignment.center,

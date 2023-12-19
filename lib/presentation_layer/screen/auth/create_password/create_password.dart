@@ -46,8 +46,12 @@ class CreatePassword extends StatelessWidget {
               ),
               SizedBox(height: 20),
               CustomTextfield(
-                valid: (p0) {},
-                onsaved: (p0) {},
+                valid: (p0) {
+                  return null;
+                },
+                onsaved: (p0) {
+                  return null;
+                },
                 titel: 'Password',
                 width: deviceInfo.localWidth * 0.8,
                 icon: Icons.lock,
@@ -56,8 +60,12 @@ class CreatePassword extends StatelessWidget {
               ),
               SizedBox(height: 20),
               CustomTextfield(
-                valid: (p0) {},
-                onsaved: (p0) {},
+                valid: (p0) {
+                  return null;
+                },
+                onsaved: (p0) {
+                  return null;
+                },
                 titel: 'Password',
                 width: deviceInfo.localWidth * 0.8,
                 icon: Icons.lock,

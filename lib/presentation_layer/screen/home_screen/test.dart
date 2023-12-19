@@ -10,10 +10,7 @@ Future<void> endLottery(String lotteryId) async {
       .collection('tickets')
       .where('lottery_id', isEqualTo: lotteryId)
       .get();
-  var d = await FirebaseFirestore.instance
-      .collection('lottery')
-      .doc(lotteryId)
-      .update({
+  await FirebaseFirestore.instance.collection('lottery').doc(lotteryId).update({
     "time_end": "",
   });
   // .where('lottery_id', isEqualTo: lotteryId)

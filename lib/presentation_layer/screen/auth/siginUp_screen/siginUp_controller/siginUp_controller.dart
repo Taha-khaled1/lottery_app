@@ -4,7 +4,6 @@ import 'package:free_lottery/presentation_layer/utils/NotificationHandler.dart';
 import 'package:get/get.dart';
 import 'package:free_lottery/main.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/info_account_screen/info_account_screen.dart';
-import 'package:free_lottery/presentation_layer/screen/auth/social_login/social_login.dart';
 import 'package:free_lottery/presentation_layer/src/show_toast.dart';
 import 'package:free_lottery/presentation_layer/src/style_packge.dart';
 
@@ -23,7 +22,7 @@ class SiginUpController extends GetxController {
     try {
       isload = true;
       update();
-      print('222222222222222');
+
       UserCredential credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailAddress,
@@ -41,6 +40,7 @@ class SiginUpController extends GetxController {
         'wallet': "0",
         "fcm": token,
       });
+      sharedPreferences.setString('password', password);
       Get.offAll(() => InfoAccount(
             isgoogle: false,
           ));

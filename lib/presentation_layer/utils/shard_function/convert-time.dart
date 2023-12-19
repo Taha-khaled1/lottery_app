@@ -19,7 +19,7 @@ Future<DateTime> convertTDataTime(String timeString, String dateString) async {
   }
 
 // Create a DateTime object
-  DateTime now = DateTime.now();
+  // DateTime now = DateTime.now();
   DateTime combinedDateTime = await DateTime(year, month, day, hour, minute);
   print(combinedDateTime);
   // print('a----------> $now');

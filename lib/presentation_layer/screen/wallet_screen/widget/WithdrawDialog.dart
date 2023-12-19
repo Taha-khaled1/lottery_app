@@ -38,6 +38,7 @@ class WithdrawDialog extends StatelessWidget {
               },
               onsaved: (value) {
                 _controller.money = double.parse(value.toString());
+                return null;
               },
               titel: "Enter the Prize you want to get",
               width: 400,
@@ -63,6 +64,7 @@ class WithdrawDialog extends StatelessWidget {
               },
               onsaved: (value) {
                 _controller.email = value.toString();
+                return null;
               },
               titel: "Enter your PayPal email",
               width: 400,

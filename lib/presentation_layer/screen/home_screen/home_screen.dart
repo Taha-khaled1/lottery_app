@@ -1,14 +1,18 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
-
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:free_lottery/presentation_layer/components/show_dialog.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/widget/AnimatedWinnersList%20.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/widget/HeaderText.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/widget/TimeDisplay.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/widget/prize_card.dart';
+import 'package:free_lottery/presentation_layer/src/show_toast.dart';
 import 'package:free_lottery/presentation_layer/utils/Admobe_Controller.dart';
+import 'package:free_lottery/presentation_layer/utils/NotificationHandler.dart';
 import 'package:free_lottery/presentation_layer/utils/is_login/is_login.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 import 'package:free_lottery/presentation_layer/utils/shard_function/printing_function_red.dart';
@@ -201,7 +205,16 @@ class _ButtonPressLimitState extends State<ButtonPressLimit> {
       color: ColorManager.kPrimary,
       text: "Get a free ticket",
       fontSize: 18,
-      press: _handleButtonPress,
+      press: () async {
+        DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+        print('Running on ${androidInfo.id}'); // e.g. "Moto G (4)"
+
+        // IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+        // print('Running on ${iosInfo.utsname.machine}');
+      },
+
+      // _handleButtonPress,
     );
   }
 }
@@ -217,3 +230,110 @@ class _ButtonPressLimitState extends State<ButtonPressLimit> {
 //         }
 //         _admobe.showRewardedAd();
 //       },
+
+Future<void> createAccountWithDeviceIdentifier() async {
+  try {
+    printRedColor("start");
+    // Check if the device has a unique identifier (e.g., Android ID, IMEI, or other device-specific info)
+    String deviceIdentifier = await getDeviceIdentifier();
+    printRedColor("getDeviceIdentifier");
+    // Check if an account with the device identifier already exists in your Firebase database
+    bool doesAccountExist = await doesAccountExistF(deviceIdentifier);
+    printRedColor("doesAccountExistF : $doesAccountExist");
+    if (doesAccountExist) {
+      // Account with the device identifier already exists
+      signInWithDeviceIdentifier(
+        getEmailDevice(deviceIdentifier),
+        deviceIdentifier,
+      );
+      sharedPreferences.setString("login_type", 'id');
+      printRedColor("signInWithDeviceIdentifier");
+    } else {
+      // Create a new account using the device identifier
+      UserCredential credential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: getEmailDevice(deviceIdentifier),
+        password: deviceIdentifier, // Use the device identifier as the password
+      );
+
+      sharedPreferences.setString('id', credential.user!.uid);
+      sharedPreferences.setString('email', credential.user!.email!);
+      sharedPreferences.setString("login_type", 'id');
+      printRedColor(" credential.user!.uid : ${credential.user!.uid} : ");
+      // Store the device identifier in Firestore
+      await storeDeviceIdentifier(
+          sharedPreferences.getString('id')!, deviceIdentifier);
+    }
+  } catch (e) {
+    // Handle any exceptions that may occur during the process
+    showToast('$e.');
+    printRedColor("$e");
+  } finally {
+    sharedPreferences.setString("login_type", 'id');
+  }
+}
+
+Future<String> getDeviceIdentifier() async {
+  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+  AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+  return androidInfo.id;
+}
+
+Future<bool> doesAccountExistF(String deviceIdentifier) async {
+  try {
+    final userDoc = FirebaseFirestore.instance.collection('users');
+    final query = await userDoc
+        .where('deviceIdentifier', isEqualTo: deviceIdentifier)
+        .get();
+
+    // If any documents match the query, an account with the device identifier exists
+    return query.docs.isNotEmpty;
+  } catch (e) {
+    // Handle any errors that may occur during the query
+    print('Error checking account existence: $e');
+    return false;
+  }
+}
+
+Future<void> storeDeviceIdentifier(
+    String userId, String deviceIdentifier) async {
+  try {
+    final userDoc = FirebaseFirestore.instance
+        .collection('users')
+        .doc(sharedPreferences.getString('id'));
+    printRedColor("userDoc : ${userDoc} : ");
+    String token = await NotificationHandler().userToken();
+    await userDoc.set({
+      'userId': sharedPreferences.getString('id'),
+      'image': sharedPreferences.getString('image'),
+      'wallet': "0",
+      'code': "+1",
+      'phone': "00000",
+      'deviceIdentifier': getDeviceIdentifier(),
+      'name': "non-name",
+      "fcm": token,
+    });
+  } catch (e) {
+    printRedColor("===========> : ${e} : ");
+  }
+}
+
+void signInWithDeviceIdentifier(email, password) async {
+  final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+    email: email,
+    password: password,
+  );
+  final userId = credential.user!.uid;
+  sharedPreferences.setString('id', userId);
+  sharedPreferences.setString('email', credential.user!.email!);
+  var user =
+      await FirebaseFirestore.instance.collection('users').doc(userId).get();
+  sharedPreferences.setString('image', user['image'] ?? '');
+  sharedPreferences.setString('name', user['name'] ?? '');
+  sharedPreferences.setString('phone', user['phone'] ?? '');
+  sharedPreferences.setString("lev", '2');
+}
+
+String getEmailDevice(deviceId) {
+  return "device-" + deviceId + "@gmail.com";
+}

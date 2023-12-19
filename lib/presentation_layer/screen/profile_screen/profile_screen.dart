@@ -11,6 +11,7 @@ import 'package:free_lottery/presentation_layer/screen/before_login_screen/befor
 import 'package:free_lottery/presentation_layer/screen/dashboard/login_dashboard.dart';
 import 'package:free_lottery/presentation_layer/screen/edit_screen/edit_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/notification_screen/notification_screen.dart';
+import 'package:free_lottery/presentation_layer/screen/profile_screen/widget/change_password.dart';
 import 'package:free_lottery/presentation_layer/screen/profile_screen/widget/profie_showBottomSheet.dart';
 import 'package:free_lottery/presentation_layer/screen/screenseting/privecy_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/screenseting/sharescreen.dart';
@@ -45,7 +46,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        sharedPreferences.getString('name')!,
+                        sharedPreferences.getString('name') ?? "non-name",
                         style: MangeStyles().getBoldStyle(
                           color: ColorManager.black,
                           fontSize: FontSize.s25 - 1,
@@ -83,11 +84,14 @@ class ProfileScreen extends StatelessWidget {
                         titel: 'app Settings',
                         image: 'assets/icons/star.svg',
                       ),
-                      // CustomListtile(
-                      //   onTap: () {},
-                      //   titel: 'Help',
-                      //   image: 'assets/icons/Help.svg',
-                      // ),
+                      CustomListtile(
+                        onTap: () {
+                          changePasswordhowBottomSheet(context);
+                        },
+                        titel: 'change password',
+                        // image: 'assets/icons/star.svg',
+                        widget: Icon(Icons.password),
+                      ),
                       CustomListtile(
                         onTap: () {
                           Get.to(() => ShareApp());

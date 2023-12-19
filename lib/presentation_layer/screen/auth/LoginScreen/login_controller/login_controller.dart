@@ -6,7 +6,6 @@ import 'package:free_lottery/main.dart';
 import 'package:free_lottery/presentation_layer/components/nav_bar.dart';
 import 'package:free_lottery/presentation_layer/src/show_toast.dart';
 import 'package:free_lottery/presentation_layer/src/style_packge.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 class LoginController extends GetxController {
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -23,7 +22,9 @@ class LoginController extends GetxController {
       isload = true;
       update();
       final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailAddress!, password: password!);
+        email: emailAddress!,
+        password: password!,
+      );
       final userId = credential.user!.uid;
       sharedPreferences.setString('id', userId);
       sharedPreferences.setString('email', credential.user!.email!);
@@ -39,7 +40,9 @@ class LoginController extends GetxController {
       sharedPreferences.setString('image', user['image'] ?? '');
       sharedPreferences.setString('name', user['name'] ?? '');
       sharedPreferences.setString('phone', user['phone'] ?? '');
+      sharedPreferences.setString('password', password ?? '');
       sharedPreferences.setString("lev", '2');
+      sharedPreferences.setString("login_type", 'normal');
       Get.offAll(() => MainScreen());
       showToast(
         'You are logged in successfully. Welcome.${user['name'] ?? ''}',

@@ -1,26 +1,19 @@
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:free_lottery/presentation_layer/utils/image_handelar/image_handelar.dart';
 import 'package:get/get.dart';
-// import 'package:image_picker/image_picker.dart';
-// import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:free_lottery/application_layer/utils/valid.dart';
 import 'package:free_lottery/main.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
-import 'package:free_lottery/presentation_layer/components/custom_listtile.dart';
 import 'package:free_lottery/presentation_layer/components/custom_text_field.dart';
 import 'package:free_lottery/presentation_layer/components/nav_bar.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/font_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';
 import 'package:free_lottery/presentation_layer/screen/auth/info_account_screen/widget/EditImage.dart';
-import 'package:free_lottery/presentation_layer/screen/auth/info_account_screen/widget/custom_phone_number.dart';
 import 'package:free_lottery/presentation_layer/src/show_toast.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 
 class InfoAccount extends StatefulWidget {
@@ -98,7 +91,7 @@ class _InfoAccountState extends State<InfoAccount> {
                           return validInput(p0.toString(), 3, 100, 'name');
                         },
                         onsaved: (p0) {
-                          name = p0.toString();
+                          return name = p0.toString();
                         },
                         titel: 'Full Name',
                         width: deviceInfo.localWidth * 0.8,

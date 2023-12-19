@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:free_lottery/data_layer/models/WithdrawalModel.dart';
 import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';

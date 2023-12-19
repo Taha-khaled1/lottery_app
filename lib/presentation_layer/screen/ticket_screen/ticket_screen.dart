@@ -8,7 +8,6 @@ import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';
 import 'package:free_lottery/presentation_layer/screen/before_login_screen/before_login_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/ticket_screen/ticket_controller.dart';
 import 'package:free_lottery/presentation_layer/utils/is_login/is_login.dart';
-import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 

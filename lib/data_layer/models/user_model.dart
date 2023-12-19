@@ -6,7 +6,8 @@ class UserModel {
   final String userId;
   final double wallet;
   final String? type;
-  UserModel( {required this.type,
+  UserModel({
+    required this.type,
     required this.code,
     required this.image,
     required this.name,
@@ -23,7 +24,7 @@ class UserModel {
       name: map['name'] ?? "",
       phone: map['phone'] ?? "",
       userId: map['userId'] ?? "",
-      wallet: double.parse(map['wallet'].toString() ?? "0.0"),
+      wallet: double.parse(map['wallet'].toString()),
     );
   }
 }

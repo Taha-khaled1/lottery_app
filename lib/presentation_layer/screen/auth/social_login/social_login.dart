@@ -140,7 +140,7 @@ Future<UserCredential> signInWithGoogle() async {
       image: googelInfo.user!.photoURL!,
       id: googelInfo.user!.uid,
     );
-    final String userId = sharedPreferences.getString('id')!;
+    // final String userId = sharedPreferences.getString('id')!;
     final userDoc = FirebaseFirestore.instance
         .collection('users')
         .doc(sharedPreferences.getString('id'));
@@ -169,6 +169,7 @@ Future<UserCredential> signInWithGoogle() async {
           'wallet': "0",
           "fcm": token,
         });
+        sharedPreferences.setString("login_type", 'google');
         Get.offAll(() => InfoAccount(
               isgoogle: true,
             ));

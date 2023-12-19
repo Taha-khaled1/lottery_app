@@ -5,7 +5,6 @@ import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
 import 'package:free_lottery/presentation_layer/components/custom_text_field.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
 import 'package:free_lottery/presentation_layer/screen/dashboard/choice_screen.dart';
-import 'package:free_lottery/presentation_layer/screen/dashboard/main_dashboard.dart';
 import 'package:free_lottery/presentation_layer/src/get_packge.dart';
 import 'package:free_lottery/presentation_layer/src/show_toast.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
@@ -40,8 +39,12 @@ class LoginDashboardScreen extends StatelessWidget {
                   height: 25,
                 ),
                 CustomTextfield(
-                  valid: (p0) {},
-                  onsaved: (p0) {},
+                  valid: (p0) {
+                    return null;
+                  },
+                  onsaved: (p0) {
+                    return null;
+                  },
                   onChanged: (password) {
                     pass = password.toString();
                   },

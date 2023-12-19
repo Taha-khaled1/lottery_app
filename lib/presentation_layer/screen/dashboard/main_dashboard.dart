@@ -1,16 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 import 'package:free_lottery/presentation_layer/components/appbar.dart';
 import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
 import 'package:free_lottery/presentation_layer/components/custom_text_field.dart';
-import 'package:free_lottery/presentation_layer/screen/auth/social_login/widget/custom_dvider.dart';
-import 'package:free_lottery/presentation_layer/src/show_toast.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
-import 'package:get/get.dart';
-
 import '../../../main.dart';
 import '../../src/style_packge.dart';
-import 'login_dashboard.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -47,9 +41,12 @@ class _DashboardState extends State<Dashboard> {
                     TextHeader(text: "password"),
                     CustomTextfield(
                       inialvalue: sharedPreferences.getString("password"),
-                      valid: (value) {},
+                      valid: (value) {
+                        return null;
+                      },
                       onsaved: (value) {
                         updatedData['password'] = value;
+                        return null;
                       },
                       titel: "Enter password",
                       width: deviceInfo.localWidth * 0.85,
@@ -58,9 +55,12 @@ class _DashboardState extends State<Dashboard> {
                     TextHeader(text: "percentage"),
                     CustomTextfield(
                       inialvalue: sharedPreferences.getString("percentage"),
-                      valid: (value) {},
+                      valid: (value) {
+                        return null;
+                      },
                       onsaved: (value) {
                         updatedData['percentage'] = value;
+                        return null;
                       },
                       titel: "Enter percentage",
                       width: deviceInfo.localWidth * 0.85,
@@ -69,9 +69,12 @@ class _DashboardState extends State<Dashboard> {
                     TextHeader(text: "Number of ads"),
                     CustomTextfield(
                       inialvalue: sharedPreferences.getString("num_ads"),
-                      valid: (value) {},
+                      valid: (value) {
+                        return null;
+                      },
                       onsaved: (value) {
                         updatedData['num_ads'] = value;
+                        return null;
                       },
                       titel: "Enter Number of ads",
                       width: deviceInfo.localWidth * 0.85,
@@ -90,9 +93,12 @@ class _DashboardState extends State<Dashboard> {
                     TextHeader(text: "android id"),
                     CustomTextfield(
                       inialvalue: sharedPreferences.getString("android_id"),
-                      valid: (value) {},
+                      valid: (value) {
+                        return null;
+                      },
                       onsaved: (value) {
                         updatedData['android_id'] = value;
+                        return null;
                       },
                       titel: "Enter android id",
                       width: deviceInfo.localWidth * 0.85,
@@ -101,9 +107,12 @@ class _DashboardState extends State<Dashboard> {
                     TextHeader(text: "ios id"),
                     CustomTextfield(
                       inialvalue: sharedPreferences.getString("ios_id"),
-                      valid: (value) {},
+                      valid: (value) {
+                        return null;
+                      },
                       onsaved: (value) {
                         updatedData['ios_id'] = value;
+                        return null;
                       },
                       titel: "Enter ios id",
                       width: deviceInfo.localWidth * 0.85,
@@ -122,9 +131,12 @@ class _DashboardState extends State<Dashboard> {
                     TextHeader(text: "public key"),
                     CustomTextfield(
                       inialvalue: sharedPreferences.getString("public_key"),
-                      valid: (value) {},
+                      valid: (value) {
+                        return null;
+                      },
                       onsaved: (value) {
                         updatedData['public_key'] = value;
+                        return null;
                       },
                       titel: "Enter public key",
                       width: deviceInfo.localWidth * 0.85,
@@ -133,9 +145,12 @@ class _DashboardState extends State<Dashboard> {
                     TextHeader(text: "secret key"),
                     CustomTextfield(
                       inialvalue: sharedPreferences.getString("secret_key"),
-                      valid: (value) {},
+                      valid: (value) {
+                        return null;
+                      },
                       onsaved: (value) {
                         updatedData['secret_key'] = value;
+                        return null;
                       },
                       titel: "Enter secret key",
                       width: deviceInfo.localWidth * 0.85,
@@ -144,9 +159,12 @@ class _DashboardState extends State<Dashboard> {
                     TextHeader(text: "client id"),
                     CustomTextfield(
                       inialvalue: sharedPreferences.getString("client_id"),
-                      valid: (value) {},
+                      valid: (value) {
+                        return null;
+                      },
                       onsaved: (value) {
                         updatedData['client_id'] = value;
+                        return null;
                       },
                       titel: "Enter client id",
                       width: deviceInfo.localWidth * 0.85,

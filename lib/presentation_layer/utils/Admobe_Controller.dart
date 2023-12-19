@@ -1,17 +1,10 @@
 import 'dart:io';
-
-import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
-import 'package:free_lottery/presentation_layer/resources/font_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/strings_manager.dart';
-import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/home_controller/home_controller.dart';
-import 'package:free_lottery/presentation_layer/screen/home_screen/home_screen.dart';
 import 'package:free_lottery/presentation_layer/src/show_toast.dart';
 import 'package:free_lottery/presentation_layer/utils/shard_function/printing_function_red.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-
 import '../../main.dart';
 
 class AdmobeController extends GetxController {

@@ -1,4 +1,3 @@
-import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:free_lottery/data_layer/models/WithdrawalModel.dart';
@@ -39,8 +38,7 @@ class WalletController extends GetxController {
 
         // Convert 'wallet' to a double
         double walletMoney =
-            double.tryParse(userSnapshot.get('wallet').toString() ?? '0.0') ??
-                0.0;
+            double.tryParse(userSnapshot.get('wallet').toString()) ?? 0.0;
 
         if (walletMoney < money) {
           showToast("You don't have enough money in your wallet.");

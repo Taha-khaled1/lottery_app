@@ -2,7 +2,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:free_lottery/data_layer/models/winner_model.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/home_controller/home_controller.dart';
-import 'package:free_lottery/presentation_layer/src/get_packge.dart';
 import 'package:free_lottery/presentation_layer/utils/shard_function/image_checker.dart';
 
 class WinnerCard extends StatelessWidget {
@@ -17,7 +16,7 @@ class WinnerCard extends StatelessWidget {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       padding: EdgeInsets.all(10),
-      width: 160,
+      width: 170,
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.1),
         borderRadius: BorderRadius.circular(20),
@@ -83,29 +82,8 @@ class _AnimatedWinnersListState extends State<AnimatedWinnersList> {
   void initState() {
     super.initState();
 
-    // Sample data
-    winners = [
-      {
-        "name": "John",
-        "prize": "1000",
-        "imageUrl": "assets/images/profile.jpg"
-      },
-      {
-        "name": "Jane",
-        "prize": "1200",
-        "imageUrl": "assets/images/profile.jpg"
-      },
-      {"name": "Doe", "prize": "1100", "imageUrl": "assets/images/profile.jpg"},
-      {
-        "name": "Alice",
-        "prize": "1050",
-        "imageUrl": "assets/images/profile.jpg"
-      },
-      {"name": "Bob", "prize": "1150", "imageUrl": "assets/images/profile.jpg"},
-    ];
-
     _scrollController = ScrollController();
-    WidgetsBinding.instance!.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _animateScroll();
     });
   }
@@ -144,8 +122,8 @@ class _AnimatedWinnersListState extends State<AnimatedWinnersList> {
               itemCount: latestWinners.length,
               itemBuilder: (context, index) {
                 return WinnerCard(
-                  name: latestWinners[index].name!,
-                  prize: latestWinners[index].prize!.toString(),
+                  name: latestWinners[index].name,
+                  prize: latestWinners[index].prize.toString(),
                   imageUrl: imageNetworkCheck(latestWinners[index].image),
                 );
               },

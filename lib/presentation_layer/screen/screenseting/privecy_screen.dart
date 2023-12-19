@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
-import 'package:free_lottery/presentation_layer/resources/strings_manager.dart';
 import 'package:free_lottery/presentation_layer/src/components_packge.dart';
 import '../../../main.dart';
 
