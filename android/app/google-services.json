@@ -22,7 +22,7 @@
           }
         },
         {
-          "client_id": "6001447946-kurm6opheft8iibdhulsu4bl317vpggj.apps.googleusercontent.com",
+          "client_id": "6001447946-v5plsjmhonm5pdem6373jqf6f5tbembh.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -37,6 +37,13 @@
             {
               "client_id": "6001447946-kurm6opheft8iibdhulsu4bl317vpggj.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "6001447946-2mlah8aif4f1qv4knjmkj5k9sm2jcnja.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.lottorealm.freewin"
+              }
             }
           ]
         }

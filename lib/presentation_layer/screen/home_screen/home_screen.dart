@@ -1,3 +1,6 @@
+import 'dart:io';
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -274,8 +277,14 @@ Future<void> createAccountWithDeviceIdentifier() async {
 
 Future<String> getDeviceIdentifier() async {
   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-  AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-  return androidInfo.id;
+  if (Platform.isAndroid) {
+    AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
+    return androidInfo.id;
+  } else {
+    IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
+    return iosInfo.identifierForVendor ??
+        "device${Random().nextInt(999999999)}";
+  }
 }
 
 Future<bool> doesAccountExistF(String deviceIdentifier) async {
@@ -336,6 +345,7 @@ void signInWithDeviceIdentifier(email, password) async {
     sharedPreferences.setString('phone', user['phone'] ?? '');
     sharedPreferences.setString("lev", '2');
     sharedPreferences.setString("login_type", 'id');
+    sharedPreferences.setString("password", getPasswordDevice(password));
   } catch (e) {
     print(e);
   }

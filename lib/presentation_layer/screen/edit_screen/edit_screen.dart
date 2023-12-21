@@ -174,12 +174,15 @@ class _EditScreenState extends State<EditScreen> {
                         'phone',
                         number,
                       );
-                      if (sharedPreferences.getString('email') != email) {
-                        sharedPreferences.setString(
-                          'email',
-                          email,
-                        );
-                        changeEmail(email);
+                      if (sharedPreferences.getString("login_type") !=
+                          "google") {
+                        if (sharedPreferences.getString('email') != email) {
+                          sharedPreferences.setString(
+                            'email',
+                            email,
+                          );
+                          changeEmail(email);
+                        }
                       }
 
                       sharedPreferences.setString(
