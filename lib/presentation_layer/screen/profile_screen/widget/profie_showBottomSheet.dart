@@ -81,6 +81,7 @@ customLogoutShowBottomSheet(BuildContext context) {
                         await sharedPreferences.setString("lev", '1');
                         await sharedPreferences.remove('id');
                         await sharedPreferences.remove('image');
+                        await sharedPreferences.setBool('logout', true);
                         Get.offAll(() => LoginScreen());
 
                         // customRatingShowBottomSheet(context);

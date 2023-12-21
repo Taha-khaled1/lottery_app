@@ -17,7 +17,7 @@ class WinnersController extends GetxController {
 
       // Parse user data and add to the users list
       querySnapshot.docs.forEach((doc) {
-        final userData = doc.data() as Map<String, dynamic>;
+        final userData = doc.data();
         final user = UserModel.fromMap(userData);
         users.add(user);
       });

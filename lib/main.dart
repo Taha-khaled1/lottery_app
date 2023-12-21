@@ -24,8 +24,14 @@ void main() async {
   sharedPreferences.setString("lang", 'ar');
   tz.initializeTimeZones();
   await Firebase.initializeApp();
-  if (!isLogin()) {
-    await createAccountWithDeviceIdentifier();
+  if (sharedPreferences.getBool("logout") != true) {
+    if (!isLogin()) {
+      try {
+        await createAccountWithDeviceIdentifier();
+      } catch (e) {
+        print("===================>    $e");
+      }
+    }
   }
   await NotificationService().initializePlatformNotifications();
   NotificationHandler notificationHandler = NotificationHandler();
@@ -56,7 +62,7 @@ Future<void> fetchDataAndSaveToSharedPreferences() async {
       sharedPreferences.setString('secret_key', data['secret_key']);
       sharedPreferences.setString('privecy', data['privecy']);
       sharedPreferences.setString('terms', data['terms']);
-      sharedPreferences.setString('password', data['password']);
+      sharedPreferences.setString('dash_password', data['password']);
       sharedPreferences.setBool('ispaypal', data['ispaypal']);
       sharedPreferences.setString('num_ads', data['num_ads'].toString());
       sharedPreferences.setString('percentage', data['percentage'].toString());

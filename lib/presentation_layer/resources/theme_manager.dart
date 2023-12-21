@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:free_lottery/presentation_layer/src/style_packge.dart';
 
 ThemeData getApplicationTheme() {

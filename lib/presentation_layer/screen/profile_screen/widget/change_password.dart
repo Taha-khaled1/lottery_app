@@ -1,16 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:free_lottery/application_layer/utils/valid.dart';
 import 'package:free_lottery/main.dart';
 import 'package:free_lottery/presentation_layer/components/custom_text_field.dart';
-import 'package:free_lottery/presentation_layer/screen/home_screen/home_screen.dart';
 import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/font_manager.dart';
 import 'package:free_lottery/presentation_layer/resources/styles_manager.dart';
+import 'package:free_lottery/presentation_layer/screen/profile_screen/controller/profile_controller.dart';
 import 'package:free_lottery/presentation_layer/utils/responsive_design/ui_components/info_widget.dart';
+import 'package:get/get.dart';
 
 changePasswordhowBottomSheet(BuildContext context) {
-  final TextEditingController? _currentPasswordController =
+  ProfileController profileController = Get.put(ProfileController());
+  final TextEditingController _currentPasswordController =
       TextEditingController();
   final TextEditingController _newPasswordController = TextEditingController();
   void changePassword(
@@ -29,7 +32,10 @@ changePasswordhowBottomSheet(BuildContext context) {
 
         // Change the user's password to the new password
         await user.updatePassword(newPassword);
-
+        sharedPreferences.setString('password', newPassword);
+        profileController.pass = newPassword;
+        Get.back();
+        profileController.changeUpdate();
         // Password changed successfully
         print('Password changed successfully');
       } on FirebaseAuthException catch (e) {
@@ -54,33 +60,36 @@ changePasswordhowBottomSheet(BuildContext context) {
       topRight: Radius.circular(25),
     )),
     builder: (BuildContext context) {
-      return Container(
-        // height: 400,
-        padding: EdgeInsets.all(16.0),
+      return Padding(
+        padding:
+            EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
         child: InfoWidget(
           builder: (context, deviceInfo) {
-            return SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                mainAxisSize: MainAxisSize.min,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      'Logout',
-                      style: MangeStyles().getBoldStyle(
-                        color: ColorManager.kPrimary,
-                        fontSize: FontSize.s18,
+            return Form(
+              key: profileController.formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    SizedBox(height: 10),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'change password',
+                        style: MangeStyles().getBoldStyle(
+                          color: ColorManager.kPrimary,
+                          fontSize: FontSize.s18,
+                        ),
+                        textAlign: TextAlign.left,
                       ),
-                      textAlign: TextAlign.left,
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  if (sharedPreferences.getString("login_type") != "id")
+                    SizedBox(height: 10),
                     CustomTextfield(
+                      obsecuer: true,
                       textController: _currentPasswordController,
                       valid: (value) {
-                        return null;
+                        return validInput(value.toString(), 8, 100, "password");
                       },
                       onsaved: (value) {
                         return null;
@@ -89,41 +98,45 @@ changePasswordhowBottomSheet(BuildContext context) {
                       width: deviceInfo.localWidth * 0.85,
                       height: 55,
                       onChanged: (value) {
-                        _currentPasswordController?.text = value.toString();
+                        _currentPasswordController.text = value.toString();
                       },
                     ),
-                  SizedBox(height: 10),
-                  CustomTextfield(
-                    textController: _newPasswordController,
-                    valid: (value) {
-                      return null;
-                    },
-                    onsaved: (value) {
-                      return null;
-                    },
-                    titel: "new password",
-                    width: deviceInfo.localWidth * 0.85,
-                    height: 55,
-                    onChanged: (value) {
-                      _newPasswordController.text = value.toString();
-                    },
-                  ),
-                  SizedBox(height: 10),
-                  CustomButton(
-                    width: deviceInfo.localWidth * 0.42,
-                    rectangel: 25,
-                    height: 60,
-                    color: ColorManager.kPrimaryButton,
-                    text: "confairmtion",
-                    press: () async {
-                      changePassword(
-                        currentPassword: _currentPasswordController?.text ??
-                            await getDeviceIdentifier(),
-                        newPassword: _newPasswordController.text,
-                      );
-                    },
-                  ),
-                ],
+                    SizedBox(height: 10),
+                    CustomTextfield(
+                      obsecuer: true,
+                      textController: _newPasswordController,
+                      valid: (value) {
+                        return validInput(value.toString(), 8, 100, "password");
+                      },
+                      onsaved: (value) {
+                        return null;
+                      },
+                      titel: "new password",
+                      width: deviceInfo.localWidth * 0.85,
+                      height: 55,
+                      onChanged: (value) {
+                        _newPasswordController.text = value.toString();
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    CustomButton(
+                      width: deviceInfo.localWidth * 0.42,
+                      rectangel: 25,
+                      height: 60,
+                      color: ColorManager.kPrimaryButton,
+                      text: "confairmtion",
+                      press: () async {
+                        if (profileController.formKey.currentState!
+                            .validate()) {
+                          changePassword(
+                            currentPassword: _currentPasswordController.text,
+                            newPassword: _newPasswordController.text,
+                          );
+                        }
+                      },
+                    ),
+                  ],
+                ),
               ),
             );
           },

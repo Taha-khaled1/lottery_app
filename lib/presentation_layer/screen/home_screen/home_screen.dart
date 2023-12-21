@@ -6,11 +6,11 @@ import 'package:free_lottery/presentation_layer/components/custom_butten.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:free_lottery/presentation_layer/components/show_dialog.dart';
 import 'package:free_lottery/presentation_layer/resources/color_manager.dart';
+import 'package:free_lottery/presentation_layer/screen/auth/siginUp_screen/siginUp_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/widget/AnimatedWinnersList%20.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/widget/HeaderText.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/widget/TimeDisplay.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/widget/prize_card.dart';
-import 'package:free_lottery/presentation_layer/src/show_toast.dart';
 import 'package:free_lottery/presentation_layer/utils/Admobe_Controller.dart';
 import 'package:free_lottery/presentation_layer/utils/NotificationHandler.dart';
 import 'package:free_lottery/presentation_layer/utils/is_login/is_login.dart';
@@ -154,6 +154,9 @@ class _ButtonPressLimitState extends State<ButtonPressLimit> {
       showDilog(
         context,
         "You must be logged in to receive a ticket",
+        onConfirmBtnTap: () {
+          Get.to(() => SiginUpScreen());
+        },
       );
       return;
     }
@@ -205,14 +208,7 @@ class _ButtonPressLimitState extends State<ButtonPressLimit> {
       color: ColorManager.kPrimary,
       text: "Get a free ticket",
       fontSize: 18,
-      press: () async {
-        DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
-        AndroidDeviceInfo androidInfo = await deviceInfo.androidInfo;
-        print('Running on ${androidInfo.id}'); // e.g. "Moto G (4)"
-
-        // IosDeviceInfo iosInfo = await deviceInfo.iosInfo;
-        // print('Running on ${iosInfo.utsname.machine}');
-      },
+      press: _handleButtonPress,
 
       // _handleButtonPress,
     );
@@ -244,32 +240,35 @@ Future<void> createAccountWithDeviceIdentifier() async {
       // Account with the device identifier already exists
       signInWithDeviceIdentifier(
         getEmailDevice(deviceIdentifier),
-        deviceIdentifier,
+        getPasswordDevice(deviceIdentifier),
       );
-      sharedPreferences.setString("login_type", 'id');
-      printRedColor("signInWithDeviceIdentifier");
+
+      printRedColor("signInWithDeviceIdentifier : done");
     } else {
       // Create a new account using the device identifier
       UserCredential credential =
           await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: getEmailDevice(deviceIdentifier),
-        password: deviceIdentifier, // Use the device identifier as the password
+        password: getPasswordDevice(
+            deviceIdentifier), // Use the device identifier as the password
       );
 
       sharedPreferences.setString('id', credential.user!.uid);
       sharedPreferences.setString('email', credential.user!.email!);
       sharedPreferences.setString("login_type", 'id');
+      sharedPreferences.setString(
+          'password', getPasswordDevice(deviceIdentifier));
       printRedColor(" credential.user!.uid : ${credential.user!.uid} : ");
       // Store the device identifier in Firestore
       await storeDeviceIdentifier(
-          sharedPreferences.getString('id')!, deviceIdentifier);
+        sharedPreferences.getString('id')!,
+        deviceIdentifier,
+      );
     }
   } catch (e) {
     // Handle any exceptions that may occur during the process
-    showToast('$e.');
-    printRedColor("$e");
-  } finally {
-    sharedPreferences.setString("login_type", 'id');
+    // showToast('$e.');
+    printRedColor(" ++++>>>>++++>>>>>++++++ >>>> $e");
   }
 }
 
@@ -309,31 +308,51 @@ Future<void> storeDeviceIdentifier(
       'wallet': "0",
       'code': "+1",
       'phone': "00000",
-      'deviceIdentifier': getDeviceIdentifier(),
+      'deviceIdentifier': deviceIdentifier,
       'name': "non-name",
       "fcm": token,
     });
+    sharedPreferences.setString('name', "non-name");
+    sharedPreferences.setString(
+        "password", getPasswordDevice(deviceIdentifier));
   } catch (e) {
     printRedColor("===========> : ${e} : ");
   }
 }
 
 void signInWithDeviceIdentifier(email, password) async {
-  final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
-    email: email,
-    password: password,
-  );
-  final userId = credential.user!.uid;
-  sharedPreferences.setString('id', userId);
-  sharedPreferences.setString('email', credential.user!.email!);
-  var user =
-      await FirebaseFirestore.instance.collection('users').doc(userId).get();
-  sharedPreferences.setString('image', user['image'] ?? '');
-  sharedPreferences.setString('name', user['name'] ?? '');
-  sharedPreferences.setString('phone', user['phone'] ?? '');
-  sharedPreferences.setString("lev", '2');
+  try {
+    final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: email,
+      password: password,
+    );
+    final userId = credential.user!.uid;
+    sharedPreferences.setString('id', userId);
+    sharedPreferences.setString('email', credential.user!.email!);
+    var user =
+        await FirebaseFirestore.instance.collection('users').doc(userId).get();
+    sharedPreferences.setString('image', user['image'] ?? '');
+    sharedPreferences.setString('name', user['name'] ?? '');
+    sharedPreferences.setString('phone', user['phone'] ?? '');
+    sharedPreferences.setString("lev", '2');
+    sharedPreferences.setString("login_type", 'id');
+  } catch (e) {
+    print(e);
+  }
 }
 
 String getEmailDevice(deviceId) {
   return "device-" + deviceId + "@gmail.com";
+}
+
+String getPasswordDevice(deviceId) {
+  return "device-" + deviceId;
+}
+
+Future<String> getPassword() async {
+  if (sharedPreferences.getString('login_type') != "google") {
+    return sharedPreferences.getString('password')!;
+  } else {
+    return "google";
+  }
 }

@@ -1,7 +1,6 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/home_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/profile_screen/profile_screen.dart';

@@ -62,7 +62,7 @@ class LoginDashboardScreen extends StatelessWidget {
                   color: ColorManager.kPrimary,
                   text: "Next",
                   press: () {
-                    if (pass == sharedPreferences.getString("password")) {
+                    if (pass == sharedPreferences.getString("dash_password")) {
                       Get.off(() => ChoiceScreen());
                       pass = '';
                     } else {

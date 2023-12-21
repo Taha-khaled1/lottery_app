@@ -1,4 +1,4 @@
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+// import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:free_lottery/data_layer/models/lottery_model.dart';
@@ -13,7 +13,7 @@ import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class HomeController extends GetxController {
   bool isloading = true;
-  final CountDownController controller = CountDownController();
+  // final CountDownController controller = CountDownController();
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<WinnerModel> latestWinners = [];
   Rx<LotteryModel?> currentLottery = Rx<LotteryModel?>(null);

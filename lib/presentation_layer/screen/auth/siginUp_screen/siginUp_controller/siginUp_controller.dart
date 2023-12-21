@@ -41,6 +41,7 @@ class SiginUpController extends GetxController {
         "fcm": token,
       });
       sharedPreferences.setString('password', password);
+      sharedPreferences.setString("login_type", 'normal');
       Get.offAll(() => InfoAccount(
             isgoogle: false,
           ));

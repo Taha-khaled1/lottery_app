@@ -20,7 +20,7 @@ class WalletScreen extends StatelessWidget {
     return isLogin()
         ? Scaffold(
             backgroundColor: ColorManager.background,
-            appBar: appbarProfile(title: 'your Prize', isBack: false),
+            appBar: appbar(title: 'your Prize', isBack: false),
             body: InfoWidget(
               builder: (context, deviceInfo) {
                 return SingleChildScrollView(

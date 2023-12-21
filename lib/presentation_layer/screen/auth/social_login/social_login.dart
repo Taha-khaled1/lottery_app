@@ -159,6 +159,7 @@ Future<UserCredential> signInWithGoogle() async {
         );
         Get.offAll(() => MainScreen());
         sharedPreferences.setString("lev", '2');
+        sharedPreferences.setString("login_type", 'google');
       } else {
         userDoc.set({
           'name': sharedPreferences.getString('name'),

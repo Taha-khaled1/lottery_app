@@ -14,29 +14,31 @@ class BeforeLoginScreen extends StatelessWidget {
     return Scaffold(
       appBar: appbar(title: "Login", isBack: false),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Lottie.asset("assets/json/login.json"),
-            SizedBox(
-              height: 20,
-            ),
-            InfoWidget(
-              builder: (context, deviceInfo) {
-                return CustomButton(
-                  width: deviceInfo.localWidth * 0.8,
-                  height: 55,
-                  color: ColorManager.kPrimary,
-                  text: "You must log in",
-                  fontSize: 18,
-                  press: () {
-                    Get.to(() => LoginScreen());
-                  },
-                );
-              },
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Lottie.asset("assets/json/login.json"),
+              SizedBox(
+                height: 20,
+              ),
+              InfoWidget(
+                builder: (context, deviceInfo) {
+                  return CustomButton(
+                    width: deviceInfo.localWidth * 0.8,
+                    height: 55,
+                    color: ColorManager.kPrimary,
+                    text: "You must log in",
+                    fontSize: 18,
+                    press: () {
+                      Get.to(() => LoginScreen());
+                    },
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:free_lottery/presentation_layer/components/nav_bar.dart';
 import 'package:free_lottery/presentation_layer/screen/home_screen/home_screen.dart';
+import 'package:free_lottery/presentation_layer/utils/shard_function/printing_function_red.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
@@ -204,25 +205,19 @@ class _EditScreenState extends State<EditScreen> {
 
       // Check if the user is signed in
       if (user != null) {
+        String pass = await getPassword();
+        printRedColor(pass);
         // Re-authenticate the user with their current email and password
         AuthCredential credential = EmailAuthProvider.credential(
-          email: user.email!,
-          password: sharedPreferences.getString('password') ??
-              await getDeviceIdentifier(), // Replace with the user's current password
-        );
+            email: user.email!,
+            password: pass //sharedPreferences.getString('password') ?? pass,
+            );
 
         await user.reauthenticateWithCredential(credential);
 
         // Update the user's email address to the new value
         await user.updateEmail(newEmail);
 
-        // // Send a verification email to the new email address (optional)
-        // await user.sendEmailVerification();
-
-        // // Sign the user out so they can sign in with the new email
-        // await FirebaseAuth.instance.signOut();
-
-        // You can now ask the user to sign in again with the new email address
         print('done');
       }
     } catch (e) {

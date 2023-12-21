@@ -11,6 +11,7 @@ import 'package:free_lottery/presentation_layer/screen/before_login_screen/befor
 import 'package:free_lottery/presentation_layer/screen/dashboard/login_dashboard.dart';
 import 'package:free_lottery/presentation_layer/screen/edit_screen/edit_screen.dart';
 import 'package:free_lottery/presentation_layer/screen/notification_screen/notification_screen.dart';
+import 'package:free_lottery/presentation_layer/screen/profile_screen/controller/profile_controller.dart';
 import 'package:free_lottery/presentation_layer/screen/profile_screen/widget/change_password.dart';
 import 'package:free_lottery/presentation_layer/screen/profile_screen/widget/profie_showBottomSheet.dart';
 import 'package:free_lottery/presentation_layer/screen/screenseting/privecy_screen.dart';
@@ -29,6 +30,7 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
+    // ProfileController profileController = Get.put(ProfileController());
     return isLogin()
         ? Scaffold(
             backgroundColor: ColorManager.background,
@@ -62,6 +64,47 @@ class ProfileScreen extends StatelessWidget {
                         ),
                         textAlign: TextAlign.center,
                       ),
+                      SizedBox(height: 0),
+                      if (sharedPreferences.getString("login_type") != "google")
+                        GetBuilder<ProfileController>(
+                          init: ProfileController(),
+                          initState: (_) {},
+                          builder: (_) {
+                            return _.isload
+                                ? SizedBox()
+                                : _.pass == "google"
+                                    ? SizedBox()
+                                    : Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            _.visibility
+                                                ? _.pass
+                                                : "***********",
+                                            style:
+                                                MangeStyles().getRegularStyle(
+                                              color: ColorManager.black,
+                                              fontSize: FontSize.s14,
+                                            ),
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          IconButton(
+                                            onPressed: () {
+                                              _.changeVisibility();
+                                            },
+                                            icon: Icon(
+                                              _.visibility
+                                                  ? Icons.visibility_off
+                                                  : Icons.visibility,
+                                            ),
+                                          )
+                                        ],
+                                      );
+                          },
+                        ),
                       SizedBox(height: 30),
                       CustomListtile(
                         onTap: () {
@@ -84,14 +127,15 @@ class ProfileScreen extends StatelessWidget {
                         titel: 'app Settings',
                         image: 'assets/icons/star.svg',
                       ),
-                      CustomListtile(
-                        onTap: () {
-                          changePasswordhowBottomSheet(context);
-                        },
-                        titel: 'change password',
-                        // image: 'assets/icons/star.svg',
-                        widget: Icon(Icons.password),
-                      ),
+                      if (sharedPreferences.getString("login_type") != "google")
+                        CustomListtile(
+                          onTap: () {
+                            changePasswordhowBottomSheet(context);
+                          },
+                          titel: 'change password',
+                          // image: 'assets/icons/star.svg',
+                          widget: Icon(Icons.password),
+                        ),
                       CustomListtile(
                         onTap: () {
                           Get.to(() => ShareApp());
