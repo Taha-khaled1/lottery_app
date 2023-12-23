@@ -47,11 +47,13 @@ class WinnerCard extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Text(
-            name,
+            name.length > 12 ? name.substring(0, 11) + ".." : name,
             style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.bold,
-                color: Colors.black54),
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: Colors.black54,
+              overflow: TextOverflow.ellipsis,
+            ),
             textAlign: TextAlign.center,
           ),
           // SizedBox(height: 5),
